@@ -8,6 +8,8 @@ from Login import Ui_Form as Login_Window
 from Prelogin import Prelogin_Window
 from Home import Home_Window
 from User_database import Register,login,get_data
+from Progress import Ui_MainWindow as Progress_Window
+from Foodlog import Ui_MainWindow as Foodlog_Window
 
 
 class Prelogin(QMainWindow):
@@ -19,11 +21,8 @@ class Prelogin(QMainWindow):
         
         self.manager = manager
         
-        self.prelogwin.tombolYES.clicked.connect(self.yes_clicked)
+        self.prelogwin.tombolYES.clicked.connect(lambda: self.manager.show_login())
         self.prelogwin.tombolNO.clicked.connect(self.no_clicked)
-        
-    def yes_clicked(self):
-        self.manager.show_login()
     
     def no_clicked(self):
         callsignup = Signup(self.manager)
@@ -39,16 +38,15 @@ class Login(QWidget):
         
         self.manager = manager
         
-        self.logwin.Enterbutton.clicked.connect(self.Enter_Clicked)
-        self.logwin.backbutton.clicked.connect(self.back_clicked) 
+        self.logwin.Enterbutton.clicked.connect(lambda: self.manager.show_home())
+        self.logwin.backbutton.clicked.connect(lambda: self.manager.show_prelogin()) 
         
-    def Enter_Clicked(self):
+    def Enter_Clicked(self,username):
         print("pp")
         username = self.logwin.inputNamauser.text()
         password = self.logwin.inputPassword.text()
-        self.manager.show_home()
         
-        '''msg_box = QMessageBox()
+        msg_box = QMessageBox()
         
         if not username or not password:
             msg_box.warning(self, "Error", "Mohon isi username dan password.")
@@ -57,10 +55,8 @@ class Login(QWidget):
             self.logwin.progress()
             self.manager.show_home()
         else:
-            msg_box.critical(self, "Login Gagal", "Username atau Password salah.")'''
-         
-    def back_clicked(self):
-        self.manager.show_prelogin()    
+            msg_box.critical(self, "Login Gagal", "Username atau Password salah.")
+    
     
 class Signup(QDialog):
     
@@ -71,7 +67,7 @@ class Signup(QDialog):
         
         self.manager = manager
         
-        self.signwin.Backbutton.clicked.connect(self.back_clicked)
+        self.signwin.Backbutton.clicked.connect(lambda: self.close())
         self.signwin.Savedatabutton.clicked.connect(self.save_clicked)
         
         self.gender = None
@@ -88,9 +84,6 @@ class Signup(QDialog):
         else:
          self.signwin.Malebutton.setStyleSheet("background-color: rgb(255, 255, 255);")
          self.signwin.Femalebutton.setStyleSheet("background-color: lightcoral;") 
-         
-    def back_clicked(self):
-        self.close()
     
     def save_clicked(self):
         
@@ -119,18 +112,46 @@ class Home(QMainWindow):
         self.homewin = Home_Window()
         self.homewin.setupUi(self)
         
-        self.homewin.LogoutButton.clicked.connect(self.back_clicked)
-        self.homewin.FoodlogButton.clicked.connect(lambda:print("foodlog"))
-        self.homewin.progress.clicked.connect(lambda:print("progress"))
+        self.homewin.LogoutButton.clicked.connect(lambda: self.manager.show_login() )
+        self.homewin.FoodlogButton.clicked.connect(lambda: self.manager.show_foodlog())
+        self.homewin.progress.clicked.connect(lambda:self.manager.show_progress())
                 
         self.manager = manager
         
-    #def show_food_log():
-    
-    #def show_progress():
         
-    def back_clicked(self):
-        self.manager.show_login()    
+    
+    def display_data(self,username):
+        
+        display = get_data(username)
+        
+        if display:
+            self.homewin.DisplayNameLabel.setText(display['username'])
+            self.homewin.DisplayAgeLabel.setText(str(display['age']))
+            self.homewin.DisplayHeightLabel.setText(str(display['height']))
+            self.homewin.DisplayWeightLabel.setText(str(display['weight']))
+            
+class Foodlog(QMainWindow):
+    
+    def __init__(self, manager):
+        super().__init__()
+        self.manager = manager
+        self.foodlogwin = Foodlog_Window()
+        self.foodlogwin.setupUi(self)
+        
+        self.foodlogwin.home.clicked.connect(lambda: self.manager.show_home())
+        self.foodlogwin.progress.clicked.connect(lambda: self.manager.show_progress())
+        
+class Progress(QMainWindow):
+    
+    def __init__(self, manager):
+        super().__init__()
+        self.manager = manager
+        self.progresswin = Progress_Window()
+        self.progresswin.setupUi(self)
+        
+        self.progresswin.home_button.clicked.connect(lambda: self.manager.show_home())
+        self.progresswin.foodlog_button.clicked.connect(lambda: self.manager.show_foodlog())
+        
             
 class Mainapp(QMainWindow):
     
@@ -143,6 +164,8 @@ class Mainapp(QMainWindow):
         self.login = Login(self)
         self.signup = Signup(self)
         self.home = Home(self)
+        self.progress = Progress(self)
+        self.foodlog = Foodlog(self)
                 
         self.stackwidget = QStackedWidget()
         self.setCentralWidget(self.stackwidget)
@@ -151,7 +174,9 @@ class Mainapp(QMainWindow):
         
         self.stackwidget.addWidget(self.prelogin)  
         self.stackwidget.addWidget(self.login)       
-        self.stackwidget.addWidget(self.home)  
+        self.stackwidget.addWidget(self.home) 
+        self.stackwidget.addWidget(self.foodlog)  
+        self.stackwidget.addWidget(self.progress)  
     
     def show_prelogin(self):
         self.stackwidget.setCurrentWidget(self.prelogin)
@@ -159,6 +184,10 @@ class Mainapp(QMainWindow):
         self.stackwidget.setCurrentWidget(self.login)
     def show_home(self):  
         self.stackwidget.setCurrentWidget(self.home)
+    def show_foodlog(self):  
+        self.stackwidget.setCurrentWidget(self.foodlog)
+    def show_progress(self):  
+        self.stackwidget.setCurrentWidget(self.progress)
         
         
 if __name__ == "__main__":

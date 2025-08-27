@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Foodlog.ui'
+# Form implementation generated from reading ui file 'foodlog.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -224,7 +224,7 @@ class Ui_MainWindow(object):
 "    border-right: 1px solid #508080;\n"
 "}")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/Asset/Asset/search-icon-png-9978.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("Searchicon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.searchfood.setIcon(icon)
         self.searchfood.setIconSize(QtCore.QSize(50, 50))
         self.searchfood.setObjectName("searchfood")
@@ -257,7 +257,7 @@ class Ui_MainWindow(object):
 "    border-right: 1px solid #508080;\n"
 "}")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/Asset/Asset/plus-icon-13062.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("Plusicon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.addmanual.setIcon(icon1)
         self.addmanual.setIconSize(QtCore.QSize(50, 50))
         self.addmanual.setObjectName("addmanual")
@@ -479,7 +479,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(100, 173, 173);\n"
 "}")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/Asset/Asset/white/Vector.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("Homelogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.home.setIcon(icon2)
         self.home.setIconSize(QtCore.QSize(14, 14))
         self.home.setCheckable(False)
@@ -495,7 +495,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(100, 173, 173);\n"
 "}")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/Asset/Asset/white/Vector-1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("Foodlog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.foodlog.setIcon(icon3)
         self.foodlog.setIconSize(QtCore.QSize(14, 14))
         self.foodlog.setObjectName("foodlog")
@@ -510,7 +510,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(100, 173, 173);\n"
 "}")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/Asset/Asset/white/Vector-2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("Progresslogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.progress.setIcon(icon4)
         self.progress.setIconSize(QtCore.QSize(14, 14))
         self.progress.setObjectName("progress")
@@ -572,7 +572,7 @@ class Ui_MainWindow(object):
         self.foodlog.setText(_translate("MainWindow", "Food Log"))
         self.progress.setText(_translate("MainWindow", "Progress"))
         self.logout.setText(_translate("MainWindow", "Log Out"))
-import rsc_rc
+import rsc
 
 
 if __name__ == "__main__":

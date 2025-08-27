@@ -1,5 +1,8 @@
 import sqlite3
 import hashlib
+import datetime
+
+#current_date = datetime()
 
 conn = sqlite3.connect("users.db")
 cursor = conn.cursor()
@@ -9,7 +12,9 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users (
     password TEXT NOT NULL,
     age INTEGER,
     gender TEXT NOT NULL,
-    weight REAL,
+    start_weight REAL,
+    current_weight REAL,
+    goal_weight REAL,
     height REAL,
     target_weight REAL
     )""")
@@ -17,13 +22,13 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users (
 conn.commit()
 conn.close()
 
-def Register(username, password, age, gender, weight, height, target_weight): #masukin data ke db
+def Register(username, password, age, gender, start_weight, current_weight, goal_weight, height, target_weight): #masukin data ke db
     
     password_hash = hashlib.sha256(password.encode()).hexdigest()
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     try:
-        cursor.execute("INSERT INTO users (username, password, age, gender, weight, height, target_weight) VALUES(?,?,?,?,?,?,?)", (username,password_hash,age,gender,weight,height,target_weight))
+        cursor.execute("INSERT INTO users (username, password, age, gender, start_weight, current_weight, goal_weight, height, target_weight) VALUES(?,?,?,?,?,?,?,?,?)", (username,password_hash,age,gender,start_weight, current_weight, goal_weight,height,target_weight))
         conn.commit()
         return True
     except sqlite3.IntegrityError:
@@ -59,7 +64,7 @@ def get_data(username):
     finally:
         conn.close()
 
-def update_data(username, password, age, weight, height, target_weight):
+def update_data(username, password, current_weight, goal_weight):
     
     password_hash = hashlib.sha256(password.encode()).hexdigest()
     conn = sqlite3.connect('users.db')
@@ -68,9 +73,9 @@ def update_data(username, password, age, weight, height, target_weight):
     try:
         cursor.execute("""
             UPDATE users 
-            SET password = ?, age = ?, weight = ?, height = ?, target_weight = ?
+            SET password = ?, current_weight = ?, goal_weight = ?
             WHERE username = ?
-        """, (password_hash, age, weight, height, target_weight, username))
+        """, (password_hash, current_weight, goal_weight, username))
         
         if cursor.rowcount == 0:
             print(f"Username '{username}' not found. No data was updated.")

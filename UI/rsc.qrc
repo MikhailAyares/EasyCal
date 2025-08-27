@@ -6,5 +6,9 @@
     <file>Foodlog.png</file>
     <file>Progresslogo.png</file>
     <file>weighticon.png</file>
+    <file>Searchicon.png</file>
+    <file>Kalenderlogo.png</file>
+    <file>Plusicon.png</file>
+
   </qresource>
 </RCC>

@@ -22,7 +22,7 @@ class Prelogin_Window(object):
         #self.centralwidget.setStyleSheet("background-image: url(:/image/BackgroundPrelogin.jpeg);")
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(458, 150, 140, 60))
+        self.label.setGeometry(QtCore.QRect(460, 150, 140, 60))
         self.label.setText("")
         self.label.setPixmap(QtGui.QPixmap("../../Downloads/Component.png"))
         self.label.setScaledContents(True)
@@ -41,7 +41,7 @@ class Prelogin_Window(object):
         self.tombolYES.setAutoDefault(False)
         self.tombolYES.setObjectName("tombolYES")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(303, 300, 450, 51))
+        self.label_2.setGeometry(QtCore.QRect(400, 300, 450, 51))
         self.label_2.setMinimumSize(QtCore.QSize(221, 0))
         self.label_2.setStyleSheet("font: 14pt \"MS Shell Dlg 2\";\n"
 "color: black;\n")
@@ -72,7 +72,7 @@ class Prelogin_Window(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.tombolYES.setText(_translate("MainWindow", "Yes"))
-        self.label_2.setText(_translate("MainWindow", "Have you ever use this app before?"))
+        self.label_2.setText(_translate("MainWindow", "Do you have account?"))
         self.tombolNO.setText(_translate("MainWindow", "No"))
 
 
