@@ -1,7 +1,4 @@
 import sys
-import time
-import sqlite3
-
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QStackedWidget, QMessageBox, QDialog
 from Signup import Signup_Window
 from Login import Ui_Form as Login_Window
@@ -10,6 +7,7 @@ from Home import Home_Window
 from User_database import Register,login,get_data
 from Progress import Ui_MainWindow as Progress_Window
 from Foodlog import Ui_MainWindow as Foodlog_Window
+from addmanual import Ui_Addmanual as Addmanual_Window
 
 
 class Prelogin(QMainWindow):
@@ -102,8 +100,16 @@ class Signup(QDialog):
         elif Register(username, password, Age_User, BB_User,TB_User,Target_BB):
             msg_box.information(self, "Sucess", "Data berhasil disimpan")
         else:
-            msg_box.critical(self, "Failed", "Data user sudah tersedia")      
+            msg_box.critical(self, "Failed", "Data user sudah tersedia") 
+            
+class Addmanual(QDialog):
     
+    def __init__(self, manager):
+        super().__init__()
+        self.addmanualwin = Addmanual_Window()
+        self.addmanualwin.setupUi(self)
+        
+        self.manager = manager
                 
 class Home(QMainWindow):
     
@@ -118,8 +124,6 @@ class Home(QMainWindow):
                 
         self.manager = manager
         
-        
-    
     def display_data(self,username):
         
         display = get_data(username)
@@ -140,6 +144,11 @@ class Foodlog(QMainWindow):
         
         self.foodlogwin.home.clicked.connect(lambda: self.manager.show_home())
         self.foodlogwin.progress.clicked.connect(lambda: self.manager.show_progress())
+        self.foodlogwin.addmanual_button.clicked.connect(self.show_addmanual)
+        
+    def show_addmanual(self):
+        calladdmanual = Addmanual(self.manager)
+        calladdmanual.exec_()
         
 class Progress(QMainWindow):
     
@@ -152,7 +161,6 @@ class Progress(QMainWindow):
         self.progresswin.home_button.clicked.connect(lambda: self.manager.show_home())
         self.progresswin.foodlog_button.clicked.connect(lambda: self.manager.show_foodlog())
         
-            
 class Mainapp(QMainWindow):
     
     def __init__(self):
@@ -166,6 +174,7 @@ class Mainapp(QMainWindow):
         self.home = Home(self)
         self.progress = Progress(self)
         self.foodlog = Foodlog(self)
+        self.addmanualmenu = Addmanual(self)
                 
         self.stackwidget = QStackedWidget()
         self.setCentralWidget(self.stackwidget)
