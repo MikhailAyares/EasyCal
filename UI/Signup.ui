@@ -1,324 +1,359 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>Form</class>
+ <widget class="QDialog" name="Form">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>532</width>
-    <height>450</height>
+    <width>700</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Signup</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background - url(:/image/backgroundsignup.jpg)</string>
+   <string notr="true">#Form { border-image: url(:/image/Backgroundsignup.jpg); }</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <property name="styleSheet">
-    <string notr="true">image: url(:/image/backgroundsignup.jpg);</string>
+  <layout class="QVBoxLayout" name="main_layout">
+   <property name="leftMargin">
+    <number>150</number>
    </property>
-   <widget class="QLabel" name="Signuplabel">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>10</y>
-      <width>51</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: rgb(0, 0, 0);
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;
-font-weight:bold;
-</string>
-    </property>
-    <property name="text">
-     <string>Sign up</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="InputNamauser">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>40</y>
-      <width>131</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: rgb(0, 0, 0);</string>
-    </property>
-    <property name="placeholderText">
-     <string>Input username</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Genderlabel">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>100</y>
-      <width>51</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: rgb(0, 0, 0);
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;
-font-weight:bold;
-</string>
-    </property>
-    <property name="text">
-     <string>Gender</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Malebutton">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>120</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
-background-color: rgb(255, 255, 255);
-padding: 500px</string>
-    </property>
-    <property name="text">
-     <string>Male</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Femalebutton">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>120</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);
-padding: 500px</string>
-    </property>
-    <property name="text">
-     <string>Female</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="AgeLabel">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>170</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: rgb(0, 0, 0);
-font: 75 8pt &quot;MS Shell Dlg 2&quot;;
-color: rgb(71, 70, 70);
-font-weight:bold;
-border-bottom: 1px solid rgb(0, 0, 0);
-border-top: 1px solid rgb(0, 0, 0);
-border-left: 1px solid rgb(0, 0, 0);
-border-right: 1px solid rgb(0, 0, 0);
-</string>
-    </property>
-    <property name="text">
-     <string>Age</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Weightlabel">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>230</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: rgb(0, 0, 0);
-font: 75 8pt &quot;MS Shell Dlg 2&quot;;
-color: rgb(71, 70, 70);
-font-weight:bold;
-border-bottom: 1px solid rgb(0, 0, 0);
-border-top: 1px solid rgb(0, 0, 0);
-border-left: 1px solid rgb(0, 0, 0);
-border-right: 1px solid rgb(0, 0, 0);
-</string>
-    </property>
-    <property name="text">
-     <string>Weight (kg)</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Heightlabel">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>200</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: rgb(0, 0, 0);
-font: 75 8pt &quot;MS Shell Dlg 2&quot;;
-color: rgb(71, 70, 70);
-font-weight:bold;
-border-bottom: 1px solid rgb(0, 0, 0);
-border-top: 1px solid rgb(0, 0, 0);
-border-left: 1px solid rgb(0, 0, 0);
-border-right: 1px solid rgb(0, 0, 0);
-</string>
-    </property>
-    <property name="text">
-     <string>Height (cm)</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="InputAgeuser">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>170</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>999</number>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="InputTBuser">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>200</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <double>9999.000000000000000</double>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="InputBBuser">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>230</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <double>9999.000000000000000</double>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Savedatabutton">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>330</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);
-padding: 500px</string>
-    </property>
-    <property name="text">
-     <string>Save</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Backbutton">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>330</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);
-padding: 500px</string>
-    </property>
-    <property name="text">
-     <string>Back</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Targetweightlabel">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>270</y>
-      <width>111</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: rgb(0, 0, 0);
-font: 75 8pt &quot;MS Shell Dlg 2&quot;;
-color: rgb(71, 70, 70);
-font-weight:bold;
-border-bottom: 1px solid rgb(0, 0, 0);
-border-top: 1px solid rgb(0, 0, 0);
-border-left: 1px solid rgb(0, 0, 0);
-border-right: 1px solid rgb(0, 0, 0);
-</string>
-    </property>
-    <property name="text">
-     <string>Target Weight (kg)</string>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="InputTargetBB">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>270</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <double>9999.000000000000000</double>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="InputPassword">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>70</y>
-      <width>131</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>Input Password</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>532</width>
-     <height>22</height>
-    </rect>
+   <property name="topMargin">
+    <number>20</number>
    </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+   <property name="rightMargin">
+    <number>150</number>
+   </property>
+   <property name="bottomMargin">
+    <number>40</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="Signuplabel">
+     <property name="styleSheet">
+      <string notr="true">background-color: none;
+font: 75 22pt &quot;MS Shell Dlg 2&quot;;
+font-weight:bold;
+color: #333;</string>
+     </property>
+     <property name="text">
+      <string>Sign Up</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="form_layout">
+     <property name="horizontalSpacing">
+      <number>15</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>15</number>
+     </property>
+     <item row="0" column="0" colspan="2">
+      <widget class="QLineEdit" name="InputNamauser">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0.8);
+border: 1px solid grey;
+border-radius: 5px;
+padding: 5px;
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+</string>
+       </property>
+       <property name="placeholderText">
+        <string>Masukkan Username</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="2">
+      <widget class="QLineEdit" name="InputPassword">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0.8);
+border: 1px solid grey;
+border-radius: 5px;
+padding: 5px;
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+</string>
+       </property>
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+       <property name="placeholderText">
+        <string>Masukkan Password</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="Genderlabel">
+     <property name="styleSheet">
+      <string notr="true">background-color: none;
+font: 75 16pt &quot;MS Shell Dlg 2&quot;;
+font-weight:bold;
+</string>
+     </property>
+     <property name="text">
+      <string>Gender</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="gender_layout">
+     <item>
+      <widget class="QPushButton" name="Malebutton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Male</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Femalebutton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Female</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="data_form_layout">
+     <property name="horizontalSpacing">
+      <number>10</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>10</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="AgeLabel">
+       <property name="text">
+        <string>Umur (Tahun)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QSpinBox" name="InputAgeuser">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximum">
+        <number>150</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="Weightlabel">
+       <property name="text">
+        <string>Berat Badan (kg)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="InputTBuser">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximum">
+        <double>999.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="Heightlabel">
+       <property name="text">
+        <string>Tinggi Badan (cm)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDoubleSpinBox" name="InputBBuser">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximum">
+        <double>999.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="Targetweightlabel">
+       <property name="text">
+        <string>Target Berat Badan (kg)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="InputTargetBB">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximum">
+        <double>999.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="ActivityLabel">
+       <property name="text">
+        <string>Tingkat Aktivitas</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QComboBox" name="ListActivity">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <item>
+        <property name="text">
+         <string>Sangat Jarang (Sedentary)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Jarang (Lightly Active)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Cukup (Moderately Active)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Sering (Very Active)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Sangat Sering (Extra Active)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="button_layout">
+     <item>
+      <widget class="QPushButton" name="Savedatabutton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Backbutton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Back</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources>
   <include location="rsc.qrc"/>

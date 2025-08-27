@@ -50,6 +50,7 @@ class Login(QWidget):
             msg_box.warning(self, "Error", "Mohon isi username dan password.")
             return
         elif login(username,password):
+            
             self.logwin.progress()
             self.manager.show_home()
         else:
