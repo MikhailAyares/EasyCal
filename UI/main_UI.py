@@ -145,7 +145,7 @@ class Foodlog(QMainWindow):
         
         self.foodlogwin.home.clicked.connect(lambda: self.manager.show_home())
         self.foodlogwin.progress.clicked.connect(lambda: self.manager.show_progress())
-        self.foodlogwin.addmanual_button.clicked.connect(self.show_addmanual)
+        self.foodlogwin.addmanual.clicked.connect(self.show_addmanual)
         
     def show_addmanual(self):
         calladdmanual = Addmanual(self.manager)
