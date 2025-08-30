@@ -7,7 +7,9 @@ from Home import Home_Window
 from User_database import Register,login,get_data
 from Progress import Ui_MainWindow as Progress_Window
 from Foodlog import Ui_MainWindow as Foodlog_Window
-from addmanual import Ui_Addmanual as Addmanual_Window
+from Addmanual import Ui_Addmanual as Addmanual_Window
+from searchfood import Ui_searchfood as searchfood_Window
+from qty import 
 
 
 class Prelogin(QMainWindow):
@@ -110,6 +112,15 @@ class Addmanual(QDialog):
         self.addmanualwin.setupUi(self)
         
         self.manager = manager
+
+class searchfood(QDialog):
+    def __init__(self, manager):
+        super().__init__()
+        self.searchfoodwin = searchfood_Window()
+        self.searchfoodwin.setupUi(self)
+        
+        self.manager = manager
+
                 
 class Home(QMainWindow):
     
@@ -144,11 +155,16 @@ class Foodlog(QMainWindow):
         
         self.foodlogwin.home.clicked.connect(lambda: self.manager.show_home())
         self.foodlogwin.progress.clicked.connect(lambda: self.manager.show_progress())
-        self.foodlogwin.addmanual_button.clicked.connect(self.show_addmanual)
+        self.foodlogwin.addmanual.clicked.connect(self.show_addmanual)
+        self.foodlogwin.searchfood.clicked.connect(self.show_searchfood)
         
     def show_addmanual(self):
         calladdmanual = Addmanual(self.manager)
         calladdmanual.exec_()
+    
+    def show_searchfood(self):
+        callsearchfood = searchfood(self.manager)
+        callsearchfood.exec_()
         
 class Progress(QMainWindow):
     
@@ -175,6 +191,7 @@ class Mainapp(QMainWindow):
         self.progress = Progress(self)
         self.foodlog = Foodlog(self)
         self.addmanualmenu = Addmanual(self)
+        self.searchfoodmenu = searchfood(self)
                 
         self.stackwidget = QStackedWidget()
         self.setCentralWidget(self.stackwidget)
