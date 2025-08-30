@@ -22,7 +22,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users (
 conn.commit()
 conn.close()
 
-def Register(username, password, age, gender, start_weight, current_weight, goal_weight, activity_level, weekly_goal, height): #masukin data ke db
+def Register(username, password, age, gender, start_weight, goal_weight, activity_level, weekly_goal, height): #masukin data ke db
     
     password_hash = hashlib.sha256(password.encode()).hexdigest()
     conn = sqlite3.connect('users.db')
@@ -35,7 +35,7 @@ def Register(username, password, age, gender, start_weight, current_weight, goal
                                               current_weight, goal_weight, activity_level, weekly_goal, 
                                               height, last_updated) VALUES(?,?,?,?,?,?,?,?,?,?,?)""", 
                                              (username, password_hash, age, gender, start_weight, 
-                                              current_weight, goal_weight, activity_level, weekly_goal, 
+                                              start_weight, goal_weight, activity_level, weekly_goal, 
                                               height, current_time))
         conn.commit()
         return True
@@ -61,12 +61,16 @@ def login(username,password): #login, check data
 def get_data(username): 
     
     conn = sqlite3.connect('users.db')
+    conn.row_factory = sqlite3.Row 
     cursor = conn.cursor()
     
     try:
         cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
         data = cursor.fetchone()
-        return data
+        if data:
+            return dict(data)
+        else: 
+            return None
     except sqlite3.Error as e:
         print(f"failed, {e}")
     finally:
