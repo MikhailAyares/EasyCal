@@ -2,7 +2,7 @@ import sqlite3
 import hashlib
 from datetime import datetime
 
-conn = sqlite3.connect("users.db")
+conn = sqlite3.connect("../db/users.db")
 cursor = conn.cursor()
 
 cursor.execute("""CREATE TABLE IF NOT EXISTS users ( 
@@ -22,10 +22,25 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users (
 conn.commit()
 conn.close()
 
+conn = sqlite3.connect("../db/users.db")
+cursor = conn.cursor()
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS daily_calories (
+        username TEXT NOT NULL,
+        date TEXT NOT NULL,
+        breakfast_cal INTEGER DEFAULT 0,
+        lunch_cal INTEGER DEFAULT 0,
+        dinner_cal INTEGER DEFAULT 0,
+        total_cal INTEGER DEFAULT 0,
+        UNIQUE(username, date)
+    )""")
+conn.commit()
+conn.close()
+
 def Register(username, password, age, gender, start_weight, goal_weight, activity_level, weekly_goal, height): #masukin data ke db
     
     password_hash = hashlib.sha256(password.encode()).hexdigest()
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('../db/users.db')
     cursor = conn.cursor()
 
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -48,7 +63,7 @@ def Register(username, password, age, gender, start_weight, goal_weight, activit
 def login(username,password): #login, check data
         
     password_hash = hashlib.sha256(password.encode()).hexdigest()
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('../db/users.db')
     cursor = conn.cursor()
     
     try: 
@@ -60,7 +75,7 @@ def login(username,password): #login, check data
         
 def get_data(username): 
     
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('../db/users.db')
     conn.row_factory = sqlite3.Row 
     cursor = conn.cursor()
     
@@ -78,7 +93,7 @@ def get_data(username):
 
 def update_data(username, password, current_weight, goal_weight, activity_level):
     
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('../db/users.db')
     cursor = conn.cursor()
     
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -113,3 +128,39 @@ def update_data(username, password, current_weight, goal_weight, activity_level)
         
     finally:
         conn.close()
+        
+def update_calories(username, date, breakfast_cal, lunch_cal, dinner_cal):
+    
+    total_cal = breakfast_cal + lunch_cal + dinner_cal
+    conn = sqlite3.connect('../db/users.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+            INSERT OR REPLACE INTO daily_calories 
+            (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal))
+        conn.commit()
+        print(f"Data kalori untuk {username} pada tanggal {date} berhasil disimpan.")
+        return True
+    except sqlite3.Error as e:
+        print(f"Gagal menyimpan data kalori: {e}")
+        return False
+    finally:
+        conn.close()
+
+def get_calories(username, date):
+    conn = sqlite3.connect('../db/users.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT * FROM daily_calories WHERE username = ? AND date = ?", (username, date))
+        data = cursor.fetchone()
+        return dict(data) if data else None
+    except sqlite3.Error as e:
+        print(f"Gagal mengambil data kalori: {e}")
+        return None
+    finally:
+        conn.close()
+
+
