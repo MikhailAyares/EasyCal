@@ -32,6 +32,7 @@ cursor.execute("""
         lunch_cal INTEGER DEFAULT 0,
         dinner_cal INTEGER DEFAULT 0,
         total_cal INTEGER DEFAULT 0,
+        current_weight REAL,
         UNIQUE(username, date)
     )""")
 conn.commit()
