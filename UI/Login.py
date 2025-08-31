@@ -15,8 +15,15 @@ import time
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
+        Form.setWindowIcon(QtGui.QIcon("Logokecil.png"))
         Form.setGeometry(0, 0, 1056, 820)
         Form.setStyleSheet("background:none;")
+
+        self.titleImage = QtWidgets.QLabel(Form)
+        self.titleImage.setGeometry(QtCore.QRect(228, 80, 600, 150)) 
+        self.titleImage.setObjectName("titleImage")
+        self.titleImage.setPixmap(QtGui.QPixmap("Logo.png"))
+        self.titleImage.setAlignment(QtCore.Qt.AlignCenter) 
         
         self.inputNamauser = QtWidgets.QLineEdit(Form)
         self.inputNamauser.setGeometry(QtCore.QRect(353, 340, 350, 45))

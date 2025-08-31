@@ -15,6 +15,7 @@ class Home_Window(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1056, 820)
+        MainWindow.setWindowIcon(QtGui.QIcon("Logokecil.png"))
         MainWindow.setStyleSheet("background-color: rgb(254,251,234);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -327,7 +328,7 @@ class Home_Window(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "EasyCal"))
-        self.title.setText(_translate("MainWindow", "EasyCal."))
+        self.title.setPixmap(QtGui.QPixmap("Logokecil.png"))
         self.HomeButton.setText(_translate("MainWindow", "Home"))
         self.FoodlogButton.setText(_translate("MainWindow", "Food Log"))
         self.progress.setText(_translate("MainWindow", "Progress"))
