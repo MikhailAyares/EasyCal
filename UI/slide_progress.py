@@ -26,24 +26,8 @@ class MplCanvas(FigureCanvas):
 
 # Main window class for your application
 class Progress(QMainWindow):
-    """
-    This class manages the main progress page of the application.
-    It handles UI loading and updates based on user data.
-    """
     def __init__(self, start_weight=None, current_weight=None, goal_weight=None, weight_data=None, 
                  calorie_data=None, start_date=None, target_weeks=None, target_calories=None):
-        """
-        Initializes the Progress window.
-
-        Args:
-            start_weight (float, optional): The user's start weight. Defaults to None.
-            current_weight (float, optional): The user's current weight. Defaults to None.
-            goal_weight (float, optional): The user's goal weight. Defaults to None.
-            weight_data (list, optional): A list of historical weight data points.
-            calorie_data (list, optional): A list of historical calorie data points.
-            start_date (datetime.date, optional): The date the user started their journey.
-            target_weeks (int, optional): The number of weeks the user aims for.
-        """
         super(Progress, self).__init__()
 
         # Load the UI from the .ui file.
