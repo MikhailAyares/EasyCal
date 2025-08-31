@@ -518,17 +518,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.progress)
         spacerItem = QtWidgets.QSpacerItem(398, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
-        self.logout = QtWidgets.QPushButton(self.menu_bar)
-        self.logout.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.logout.setStyleSheet("QPushButton {\n"
-"    background-color: rgb(111, 192, 195);\n"
-"    color: white;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(100, 173, 173);\n"
-"}")
-        self.logout.setObjectName("logout")
-        self.horizontalLayout_3.addWidget(self.logout)
         self.verticalLayout.addWidget(self.menu_bar)
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -572,7 +561,6 @@ class Ui_MainWindow(object):
         self.home.setText(_translate("MainWindow", "Home"))
         self.foodlog.setText(_translate("MainWindow", "Food Log"))
         self.progress.setText(_translate("MainWindow", "Progress"))
-        self.logout.setText(_translate("MainWindow", "Log Out"))
 import rsc
 
 

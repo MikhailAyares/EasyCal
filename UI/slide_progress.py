@@ -66,7 +66,6 @@ class Progress(QMainWindow):
         self.home_button.clicked.connect(self.go_to_home)
         self.foodlog_button.clicked.connect(self.go_to_foodlog)
         self.logout_button.clicked.connect(self.logout)
-        self.progress_button.setEnabled(False)
 
     def go_to_home(self):
         self.close()
