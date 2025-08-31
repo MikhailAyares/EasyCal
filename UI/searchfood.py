@@ -9,10 +9,26 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from qty_dialog import QtyDialog as QtyDialog
+import sqlite3
+import os
 
 class Ui_searchfood(object):
     def setupUi(self, searchfood):
+
+        base_dir = os.path.dirname(os.path.abspath(__file__))   # lokasi file searchfood.py
+        db_path = os.path.join(base_dir, "..", "db", "food.db") # naik 1 folder → db → food.db
+        self.conn = sqlite3.connect(db_path)
+        self.cursor = self.conn.cursor()
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS nutrisi (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL
+            )
+        """)
+        self.conn.commit()
+        self.picked_item = {}
+
         searchfood.setObjectName("searchfood")
         searchfood.resize(512, 272)
         searchfood.setStyleSheet("background-color: rgb(254,251,234);")
@@ -26,6 +42,7 @@ class Ui_searchfood(object):
         self.lineEdit.setStyleSheet("background-color: white;")
         self.lineEdit.setText("")
         self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit.setPlaceholderText("Search Food...")
         self.gridLayout.addWidget(self.lineEdit, 0, 0, 1, 1)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setStyleSheet("QPushButton {\n"
@@ -45,23 +62,35 @@ class Ui_searchfood(object):
 "    background-color: rgb(111, 192, 195);\n"
 "    color: white;\n"
 "}\n"
+"QPushButton:disabled {"
+"    background-color: rgb(180, 180, 180); "
+"    color: rgb(220, 220, 220);            "
+"}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(100, 173, 173);\n"
-"}")
+"}\n" \
+"")
         self.Add_button.setObjectName("Add_button")
         self.horizontalLayout.addWidget(self.Add_button)
+        self.Add_button.setEnabled(False)
         self.Remove_button = QtWidgets.QPushButton(self.centralwidget)
         self.Remove_button.setStyleSheet("QPushButton {\n"
 "    background-color: rgb(111, 192, 195);\n"
 "    color: white;\n"
 "}\n"
+"QPushButton:disabled {"
+"    background-color: rgb(180, 180, 180);  "
+"    color: rgb(220, 220, 220);             "
+"}\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(100, 173, 173);\n"
-"}")
+"}\n" \
+"")
         self.Remove_button.setObjectName("Remove_button")
         self.horizontalLayout.addWidget(self.Remove_button)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
+        self.Remove_button.setEnabled(False)
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setStyleSheet("QPushButton {\n"
 "    background-color: rgb(111, 192, 195);\n"
@@ -101,9 +130,54 @@ class Ui_searchfood(object):
         self.gridLayout_2.addLayout(self.verticalLayout, 1, 1, 1, 1)
         searchfood.setLayout(self.gridLayout_2)
 
+        self.searchitem()
+        self.pushButton.clicked.connect(self.searchitem)
+        self.listWidget.itemSelectionChanged.connect(self.updateAddbutton)
+        self.listWidget_2.itemSelectionChanged.connect(self.updateRemovebutton)
+        self.Add_button.clicked.connect(lambda: self.open_qty_dialog(False))
+        self.Remove_button.clicked.connect(lambda: self.open_qty_dialog(True))
+
         self.retranslateUi(searchfood)
         self.Cancel_Button.clicked.connect(searchfood.close)
         QtCore.QMetaObject.connectSlotsByName(searchfood)
+
+    def refresh_list2(self):
+         self.listWidget_2.clear()  # kosongkan dulu list
+         for food, qty in self.picked_item.items():
+                self.listWidget_2.addItem(f"{food} - {qty} gram")
+
+    def update_picked(self, data, name, delta):
+        data[name] = data.get(name, 0) + delta
+        if data[name] <= 0:
+                del data[name]
+        self.refresh_list2()
+
+
+        
+    def searchitem(self):
+        keyword = self.lineEdit.text()
+        query = "SELECT name FROM nutrisi WHERE name LIKE ?"
+        self.cursor.execute(query, ('%' + keyword + '%',))
+        results = self.cursor.fetchall()
+        self.listWidget.clear()
+        for row in results:
+                self.listWidget.addItem(row[0])
+
+    def updateAddbutton(self):
+        self.Add_button.setEnabled(len(self.listWidget.selectedItems()) > 0)
+
+    def updateRemovebutton(self):
+        self.Remove_button.setEnabled(len(self.listWidget_2.selectedItems()) > 0)
+
+    def open_qty_dialog(self, isRemove):
+        parent_dialog = self.centralwidget.parent() 
+        dialog = QtyDialog(parent_dialog)
+        if dialog.exec_() == QtWidgets.QDialog.Accepted:
+                value = -dialog.getValue() if isRemove else dialog.getValue()
+                food_name = self.listWidget.currentItem().text()
+                self.update_picked(self.picked_item,food_name,value)
+                
+
 
     def retranslateUi(self, searchfood):
         _translate = QtCore.QCoreApplication.translate

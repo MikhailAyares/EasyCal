@@ -54,7 +54,6 @@ class Ui_Form(object):
         self.gridLayout.addLayout(self.formLayout_2, 0, 0, 1, 1)
 
         self.retranslateUi(Form)
-        self.pushButton.clicked.connect(Form.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
