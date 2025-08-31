@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from qty_dialog import QtyDialog as QtyDialog
 import sqlite3
 import os
+from datetime import date
 
 class Ui_searchfood(object):
     def setupUi(self, searchfood):
@@ -23,7 +24,20 @@ class Ui_searchfood(object):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS nutrisi (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL
+                name TEXT UNIQUE,
+                calories REAL,
+                protein REAL,
+                fat REAL,
+                carbohydrate REAL
+            )
+        """)
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS meal_log (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                food_id INTEGER,
+                grams REAL,
+                date TEXT,
+                FOREIGN KEY(food_id) REFERENCES nutrisi(id)
             )
         """)
         self.conn.commit()
@@ -135,6 +149,7 @@ class Ui_searchfood(object):
         self.pushButton.clicked.connect(self.searchitem)
         self.listWidget.itemSelectionChanged.connect(self.updateAddbutton)
         self.listWidget_2.itemSelectionChanged.connect(self.updateRemovebutton)
+        self.pushButton_4.clicked.connect(self.confirm_clicked)
         self.Add_button.clicked.connect(lambda: self.open_qty_dialog(False))
         self.Remove_button.clicked.connect(lambda: self.open_qty_dialog(True))
 
@@ -177,6 +192,35 @@ class Ui_searchfood(object):
                 value = -dialog.getValue() if isRemove else dialog.getValue()
                 food_name = self.listWidget.currentItem().text()
                 self.update_picked(self.picked_item,food_name,value)
+
+    def get_food_id(self, name):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id FROM nutrisi WHERE name = ?", (name,))
+        result = cursor.fetchone()
+        if result:
+                return result[0]  # ambil id
+        else:
+                return None
+
+
+
+    def add_meal_log(self, name, grams):
+        food_id = self.get_food_id(name)
+        log_date = date.today().isoformat()
+        if food_id is None:
+                print(f"Food '{name}' tidak ditemukan di database.")
+                return
+        self.cursor = self.conn.cursor()
+        self.cursor.execute("""
+            INSERT INTO meal_log (food_id, grams, date)
+            VALUES (?, ?, ?)
+        """, (food_id, grams, log_date))
+        self.conn.commit()
+
+    def confirm_clicked(self):
+        for name,qty in self.picked_item.items():
+             self.add_meal_log(name,qty)
+        searchfood.close()
                 
 
 
