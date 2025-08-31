@@ -15,6 +15,7 @@ class Ui_Addmanual(object):
     def setupUi(self, Addmanual):
         Addmanual.setObjectName("Addmanual")
         Addmanual.resize(425, 208)
+        Addmanual.setWindowIcon(QtGui.QIcon("Logokecil.png"))
         Addmanual.setStyleSheet("background-color: rgb(254,251,234);")
         self.gridLayout = QtWidgets.QGridLayout(Addmanual) 
         self.gridLayout.setContentsMargins(20, 20, 20, 20)

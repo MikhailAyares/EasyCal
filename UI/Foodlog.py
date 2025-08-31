@@ -15,6 +15,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1056, 820)
+        MainWindow.setWindowIcon(QtGui.QIcon("Logokecil.png"))
         MainWindow.setStyleSheet("background-color: rgb(254,251,234);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -537,7 +538,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.title.setText(_translate("MainWindow", "EasyCal."))
+        self.title.setPixmap(QtGui.QPixmap("Logokecil.png"))
         self.consumed.setText(_translate("MainWindow", "Consumed"))
         self.calorie_2.setText(_translate("MainWindow", "550 cal"))
         self.goal.setText(_translate("MainWindow", "Goal"))

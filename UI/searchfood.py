@@ -15,6 +15,7 @@ class Ui_searchfood(object):
     def setupUi(self, searchfood):
         searchfood.setObjectName("searchfood")
         searchfood.resize(512, 272)
+        searchfood.setWindowIcon(QtGui.QIcon("Logokecil.png"))
         searchfood.setStyleSheet("background-color: rgb(254,251,234);")
         self.centralwidget = QtWidgets.QWidget(searchfood)
         self.centralwidget.setObjectName("centralwidget")

@@ -14,6 +14,7 @@ import rsc
 class Prelogin_Window(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
+        MainWindow.setWindowIcon(QtGui.QIcon("Logokecil.png"))
         MainWindow.setGeometry(700,200,700, 700)
         MainWindow.setStyleSheet("background-color: rgb(254,251,234);")
         MainWindow.setFixedSize(1056,820)
@@ -21,12 +22,20 @@ class Prelogin_Window(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         #self.centralwidget.setStyleSheet("background-image: url(:/image/BackgroundPrelogin.jpeg);")
         self.centralwidget.setObjectName("centralwidget")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(460, 150, 140, 60))
-        self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("../../Downloads/Component.png"))
-        self.label.setScaledContents(True)
-        self.label.setObjectName("label")
+
+
+        self.titleImage = QtWidgets.QLabel(self.centralwidget)
+        self.titleImage.setGeometry(QtCore.QRect(228, 100, 600, 150))
+        self.titleImage.setObjectName("titleImage")
+        self.titleImage.setPixmap(QtGui.QPixmap("Logo.png"))
+        self.titleImage.setAlignment(QtCore.Qt.AlignCenter)
+        
+        #self.label = QtWidgets.QLabel(self.centralwidget)
+        #self.label.setGeometry(QtCore.QRect(460, 150, 140, 60))
+        #self.label.setText("")
+        #self.label.setPixmap(QtGui.QPixmap("../../Downloads/Component.png"))
+        #self.label.setScaledContents(True)
+        #self.label.setObjectName("label")
         self.tombolYES = QtWidgets.QPushButton(self.centralwidget)
         self.tombolYES.setGeometry(QtCore.QRect(463, 420, 130, 50))
         self.tombolYES.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
@@ -72,7 +81,7 @@ class Prelogin_Window(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.tombolYES.setText(_translate("MainWindow", "Yes"))
-        self.label_2.setText(_translate("MainWindow", "Do you have account?"))
+        self.label_2.setText(_translate("MainWindow", "Do you have an account?"))
         self.tombolNO.setText(_translate("MainWindow", "No"))
 
 

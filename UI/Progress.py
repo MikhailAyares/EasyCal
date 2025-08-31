@@ -13,8 +13,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("MainWindow")  
         MainWindow.resize(1056, 820)
+        MainWindow.setWindowIcon(QtGui.QIcon("Logokecil.png"))
         MainWindow.setStyleSheet("background-color: rgb(254,251,234);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -404,7 +405,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.title.setText(_translate("MainWindow", "EasyCal."))
+        self.title.setPixmap(QtGui.QPixmap("Logokecil.png"))
         self.label.setText(_translate("MainWindow", "Weight Progress"))
         self.label_2.setText(_translate("MainWindow", "Start"))
         self.start_label.setText(_translate("MainWindow", "..."))
