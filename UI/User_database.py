@@ -268,8 +268,6 @@ def get_weight_history(username):
     finally:
         conn.close()
 
-# Add this new function to your user_database.py file
-
 def get_latest_target_calories(username):
     conn = sqlite3.connect('../db/users.db')
     cursor = conn.cursor()
@@ -286,5 +284,26 @@ def get_latest_target_calories(username):
             return result[0]
         else:
             return 2000
+    finally:
+        conn.close()
+
+def save_target_calories(username, target_calories):
+    conn = sqlite3.connect('../db/users.db')
+    cursor = conn.cursor()
+    today_str = datetime.now().strftime('%Y-%m-%d')
+    try:
+        cursor.execute("""
+            INSERT INTO daily_calories (username, date, target_cal)
+            VALUES (?, ?, ?)
+            ON CONFLICT(username, date) DO UPDATE SET
+            target_cal = excluded.target_cal;
+        """, (username, today_str, target_calories))
+        
+        conn.commit()
+        print(f"Target kalori untuk {username} pada {today_str} tersimpan: {target_calories}")
+        return True
+    except sqlite3.Error as e:
+        print(f"Gagal menyimpan target kalori: {e}")
+        return False
     finally:
         conn.close()

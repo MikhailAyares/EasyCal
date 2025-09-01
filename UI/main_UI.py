@@ -5,11 +5,12 @@ from Signup import Signup_Window
 from Login import Ui_Form as Login_Window
 from Prelogin import Prelogin_Window
 from Home import Home_Window
-from User_database import Register, login, get_data, update_calories, get_calories, add_meal_log, get_meal_logs_by_date, get_calorie_history, get_weight_history, get_latest_target_calories
+from User_database import Register, login, get_data, update_calories, get_calories, add_meal_log, get_meal_logs_by_date, get_calorie_history, get_weight_history, get_latest_target_calories, save_target_calories
 from Progress import Ui_MainWindow as Progress_Window
 from Foodlog import Ui_MainWindow as Foodlog_Window
 from Addmanual import Ui_Addmanual as Addmanual_Window
 from searchfood import Ui_searchfood as searchfood_Window
+import calories_formula
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import numpy as np
@@ -115,6 +116,11 @@ class Signup(QDialog):
             return
 
         if Register(username, password, age_user, gender, start_weight, goal_weight, activity_level, weekly_goal, height):
+            bmr = calories_formula.bmr_calculate(age_user, gender, start_weight, height)
+            calories_min = calories_formula.calories_min(bmr, activity_level)
+            calories_deficit = calories_formula.calories_deficit(calories_min, weekly_goal)
+            target_calories = calories_formula.calories_target(calories_min, calories_deficit, goal_weight, start_weight)
+            save_target_calories(username, target_calories)
             msg_box.information(self, "Sukses", "Data berhasil disimpan. Silakan login.")
             self.accept() 
         else:
