@@ -159,13 +159,14 @@ def update_calories(username, calories_to_add):
     current_hour = now.hour
 
     try:
-        cursor.execute("SELECT breakfast_cal, lunch_cal, dinner_cal FROM daily_calories WHERE username = ? AND date = ?", (username, current_date))
+        cursor.execute("SELECT breakfast_cal, lunch_cal, dinner_cal, target_cal FROM daily_calories WHERE username = ? AND date = ?", (username, current_date))
         existing_data = cursor.fetchone()
 
         if existing_data:
-            breakfast_cal, lunch_cal, dinner_cal = existing_data
+            breakfast_cal, lunch_cal, dinner_cal, target_cal = existing_data
         else:
             breakfast_cal, lunch_cal, dinner_cal = 0, 0, 0
+            target_cal = get_latest_target_calories(username)
 
         if 0 <= current_hour < 12:  
             breakfast_cal += calories_to_add
@@ -179,9 +180,9 @@ def update_calories(username, calories_to_add):
 
         cursor.execute("""
             INSERT OR REPLACE INTO daily_calories 
-            (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal) 
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (username, current_date, breakfast_cal, lunch_cal, dinner_cal, total_cal))
+            (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal, target_cal) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (username, current_date, breakfast_cal, lunch_cal, dinner_cal, total_cal, target_cal))
         
         conn.commit()
         return True

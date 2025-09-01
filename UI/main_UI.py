@@ -261,9 +261,20 @@ class Foodlog(QMainWindow):
         table = self.foodlogwin.table
         table.setRowCount(0)
         
+        calories_data = get_calories(self.manager.current_user, today_str)
+        total_calories_consumed = 0
+        total_protein = 0
+        total_fat = 0
+        total_carbs = 0
+
         for row_num, meal in enumerate(meal_logs):
             table.insertRow(row_num)
             
+            total_calories_consumed += meal.get('calories', 0)
+            total_protein += meal.get('protein', 0)
+            total_fat += meal.get('fat', 0)
+            total_carbs += meal.get('carbs', 0)
+
             log_time = datetime.strptime(meal['log_time'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')
             calories = f"{meal['calories']:.1f}"
             protein = f"{meal['protein']:.1f}"
@@ -278,6 +289,17 @@ class Foodlog(QMainWindow):
             table.setItem(row_num, 4, QTableWidgetItem(fat))
             table.setItem(row_num, 5, QTableWidgetItem(carbs))
             table.setItem(row_num, 6, QTableWidgetItem(portion))
+        
+        target_cal = calories_data.get('target_cal', 2000) if calories_data else 2000
+        remaining_cal = target_cal - total_calories_consumed
+        
+        self.foodlogwin.calorie_2.setText(f"{int(total_calories_consumed)} cal") 
+        self.foodlogwin.calorie_3.setText(f"{int(target_cal)} cal")
+        self.foodlogwin.calorie.setText(f"{int(remaining_cal)} cal")
+        
+        self.foodlogwin.proteingram.setText(f"{total_protein:.1f} gr")
+        self.foodlogwin.carbsgram.setText(f"{total_carbs:.1f} gr")
+        self.foodlogwin.fatgram.setText(f"{total_fat:.1f} gr")
 
     def show_addmanual(self):
         calladdmanual = Addmanual(self.manager)
