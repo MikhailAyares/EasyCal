@@ -14,7 +14,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users (
     current_weight REAL,
     goal_weight REAL,
     height REAL,
-    activity_level INTEGER,
+    activity_level REAL,
     weekly_goal REAL,
     last_updated TEXT NOT NULL 
 )""")

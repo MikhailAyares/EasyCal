@@ -26,7 +26,7 @@ def calories_deficit(calories, target_gain):
         calories_diff = calories * 0.41
     return calories_diff
 
-def calories_total_perday(calories, calories_diff, diff):
+def calories_target(calories, calories_diff, diff):
     if diff == "gain":
         calories_total_perday = calories + calories_diff
     else:
