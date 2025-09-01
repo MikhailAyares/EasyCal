@@ -102,7 +102,7 @@ class Signup(QDialog):
         goal_weight = self.signwin.InputTargetBB.value()
         
         
-        activity_map = {"Sedentary (no exercise)": 0, "Light (1-3 times/week)": 1, "Moderate (4-5 times/week)": 2, "Very active(6-7 times/week)": 3}
+        activity_map = {"Sedentary (no exercise)": "Sedentary", "Light (1-3 times/week)": "Light", "Moderate (4-5 times/week)": "Moderate", "Very active(6-7 times/week)": "Very active"}
         activity_level = activity_map.get(self.signwin.ActivityBox.currentText())
 
         weekly_goal_map = {"0.25 kg/week": 0.25, "0.5 kg/week": 0.5, "1.0 kg/week": 1.0}
