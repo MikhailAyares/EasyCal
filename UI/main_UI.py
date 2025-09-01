@@ -59,6 +59,7 @@ class Prelogin(QMainWindow):
         self.prelogwin.tombolNO.clicked.connect(self.no_clicked)
     
     def no_clicked(self):
+        QMessageBox.information(self, "info", "data tidak dapat diupdate, silahkan isi sesuai keadaan")
         callsignup = Signup(self.manager)
         callsignup.exec_()
 
@@ -92,6 +93,7 @@ class Login(QWidget):
         
         if login(username, password):
             self.logwin.progress()
+            QMessageBox.information(self, "info", "jangan lupa update data kamu hari ini")
             self.manager.show_home(username)
         else:
             msg_box.critical(self, "Login Gagal", "Username atau Password salah.")
@@ -228,7 +230,7 @@ class UpdateData(QDialog):
         msg_box = QMessageBox()
 
         if update_data(username, current_weight, target_weight, activity_level):
-            msg_box.information(self, "Sukses", "Update data berhasil.")
+            msg_box.information(self, "Sukses", "Update data berhasil, silahkan refresh window atau login ulang")
             self.accept()
 
         else:
@@ -244,8 +246,12 @@ class Home(QMainWindow):
         self.homewin.LogoutButton.clicked.connect(self.logout_clicked)
         self.homewin.FoodlogButton.clicked.connect(lambda: self.manager.show_foodlog())
         self.homewin.progress.clicked.connect(lambda: self.manager.show_progress())
-        self.homewin.update_weight.clicked.connect(lambda: self.manager.updatedata.exec_())
+        self.homewin.update_weight.clicked.connect(self.update)
     
+    def update(self):
+        QMessageBox.information(self, "info", "jangan masukan current weight kurang/lebih dari start weight yang anda miliki")
+        self.manager.updatedata.exec_()
+
     def logout_clicked(self):
         self.manager.show_login()
         self.clear_display_data()
