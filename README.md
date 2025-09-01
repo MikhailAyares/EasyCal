@@ -11,6 +11,12 @@ To make logging even easier, EasyCal includes a pre-populated food database. Thi
 * User authentication and profile management
 * Modern, user-friendly interface
 
+### Contribution
+* Kemas Rasyad Subhan: Progress (UI+backend), Userdatabase, Logo Design
+* Mikhail Ayares: Prelogin (UI+backend), Login (UI+backend), Signup (UI+backend), Home (ui+backend), Algoritma Utama Window Connection, Userdatabase
+* Muhammad Rais Aminurrahman: Foodlog menu (UI+backend), Calories Calculation, Database Foodlog, Addmanual (UI+backend), Updatedata (UI+backend), UI Menu Template
+* Ahmad Farrij Dzulfikar: UI Search Makanan, Database Makanan, Algoritma Search Makanan, UI Update Data, Readme
+
 ### Getting Started
 
 Prerequisite
