@@ -159,6 +159,10 @@ class Home(QMainWindow):
         self.homewin.DisplayWeightLabel.clear()
         self.homewin.DisplayWeightLabel2.clear() 
         self.homewin.DisplayWeightLabel3.clear() 
+        self.homewin.DisplayBreakfastLabel.setText("0")
+        self.homewin.DisplayLunchLabel.setText("0")
+        self.homewin.DisplayDinnerLabel.setText("0")
+        self.homewin.CaloriBar.setValue(0)
 
     def display_data(self, username):
         user_data = get_data(username)
