@@ -412,35 +412,35 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.table.sizePolicy().hasHeightForWidth())
         self.table.setSizePolicy(sizePolicy)
-        self.table.setStyleSheet("QTableWidget {\n"
-"    background-color: rgb(238, 235, 219);\n"
-"    border: 1px solid #e0e0e0; \n"
-"    gridline-color: #f0f0f0; \n"
-"    font-size: 10pt;\n"
-"    selection-background-color: #cfe8fc;\n"
-"    selection-color: #000000;\n"
-"}\n"
-"\n"
-"QHeaderView::section {\n"
-"    background-color: rgb(255, 227, 162);\n"
-"    color: #333333;\n"
-"    padding: 5px;\n"
-"    border: none;\n"
-"    border-bottom: 1px solid #e0e0e0;\n"
-"    border-right: 1px solid #e0e0e0;\n"
-"    font-weight: bold;\n"
-"}\n"
-"\n"
-"QTableWidget::item {\n"
-"    padding-left: 5px;\n"
-"    padding-right: 5px;\n"
-"    border: none;\n"
-"    border-bottom: 1px solid #f0f0f0;\n"
-"}\n"
-"\n"
-"QHeaderView::section:horizontal:last-section {\n"
-"    border-right: none;\n"
-"}")
+        self.table.setStyleSheet("""
+QTableWidget {
+    background-color: rgb(238, 235, 219);
+    border: 1px solid #e0e0e0; 
+    gridline-color: #f0f0f0; 
+    font-size: 10pt;
+    selection-background-color: #cfe8fc;
+    selection-color: #000000;
+}
+
+QHeaderView::section {
+    background-color: rgb(255, 227, 162);
+    color: #333333;
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    font-weight: bold;
+}
+
+QHeaderView::section:horizontal:last-section {
+    border-right: none;
+}
+
+QTableCornerButton::section {
+    background-color: rgb(255, 227, 162);
+    border: none;
+}
+""")
         self.table.setObjectName("table")
         self.table.setColumnCount(8)
         self.table.setRowCount(0)
