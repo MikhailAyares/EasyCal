@@ -486,7 +486,6 @@ class Progress(QMainWindow):
         calories_layout.addWidget(self.calories_canvas)
 
     def load_user_data(self, username):
-        print(f"Loading progress data for user: {username}")
         user_data = get_data(username)
         weight_data = get_weight_history(username)
         calorie_data = get_calorie_history(username)
