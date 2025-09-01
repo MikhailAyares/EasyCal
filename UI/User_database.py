@@ -188,9 +188,9 @@ def update_calories(username, calories_to_add):
 
         cursor.execute("""
             INSERT OR REPLACE INTO daily_calories 
-            (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal) 
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (username, current_date, breakfast_cal, lunch_cal, dinner_cal, total_cal))
+            (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal, target_cal) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (username, current_date, breakfast_cal, lunch_cal, dinner_cal, total_cal, target_cal))
         
         conn.commit()
         return True
