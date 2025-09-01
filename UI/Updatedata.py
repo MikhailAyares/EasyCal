@@ -34,6 +34,10 @@ class Ui_Form(object):
         self.activity.setStyleSheet("background-color: white;\n"
 "alternate-background-color: rgb(232, 232, 232);\n"
 "border: none;")
+        self.activity.addItem("")
+        self.activity.addItem("")
+        self.activity.addItem("")
+        self.activity.addItem("")
         self.activity.setObjectName("activity")
         self.gridLayout.addWidget(self.activity, 6, 0, 1, 5)
         self.editdata = QtWidgets.QLabel(Form)
@@ -129,6 +133,10 @@ class Ui_Form(object):
         self.editdata.setText(_translate("Form", "EDIT DATA"))
         self.targetweight.setText(_translate("Form", "Target Weight"))
         self.activitylevel.setText(_translate("Form", "Activity Level"))
+        self.activity.setItemText(0, _translate("Form", "Sedentary (no exercise)"))
+        self.activity.setItemText(1, _translate("Form", "Light (1-3 times/week)"))
+        self.activity.setItemText(2, _translate("Form", "Moderate (4-5 times/week)"))
+        self.activity.setItemText(3, _translate("Form", "Very active(6-7 times/week)"))
         self.cancel.setText(_translate("Form", "Cancel"))
         self.pushButton.setText(_translate("Form", "Save"))
 

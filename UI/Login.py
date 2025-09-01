@@ -46,12 +46,19 @@ class Ui_Form(object):
         self.Login.setScaledContents(False)
         self.Login.setObjectName("Login")
         self.LoadingBar = QtWidgets.QProgressBar(Form)
-        self.LoadingBar.setGeometry(QtCore.QRect(353, 290, 400, 30))
+        self.LoadingBar.setGeometry(QtCore.QRect(353, 290, 350, 30))
         self.LoadingBar.setContextMenuPolicy(QtCore.Qt.PreventContextMenu)
         self.LoadingBar.setStatusTip("")
-        self.LoadingBar.setStyleSheet("\n"
-"\n"
-"")
+        self.LoadingBar.setStyleSheet("QProgressBar {\n"
+"     border: 1px solid grey;\n"
+"     border-radius: 5px;\n"
+"     text-align: center;\n"
+"     background-color: white;\n"
+"}\n"
+"QProgressBar::chunk {\n"
+"     background-color: #85d4d1; \n"
+"     width: 10px;\n"
+"}")
         self.LoadingBar.setValue(0)
         self.LoadingBar.setMaximum(100)
         self.LoadingBar.setTextVisible(True)
@@ -67,23 +74,52 @@ class Ui_Form(object):
         
         self.Enterbutton = QtWidgets.QPushButton(Form)
         self.Enterbutton.setGeometry(QtCore.QRect(353, 470, 350, 45))
-        self.Enterbutton.setStyleSheet("\n"
-"padding:500px;\n"
-"background-color: rgb(0, 255, 0);\n"
-"background: none;\n"
-"border: 1px solid black;\n"
-"")
+        self.Enterbutton.setStyleSheet("QPushButton {\n"
+"     background-color: #528f91; /* Warna utama */\n"
+"     color: white;\n"
+"     border: 1px solid #3E6B6D;\n"
+"     border-radius: 5px;\n"
+"     font-weight: bold;\n"
+"}\n"
+"QPushButton:hover {\n"
+"     background-color: #60A5A8; \n"
+"}\n"
+"QPushButton:pressed {\n"
+"     background-color: #4A8082; \n"
+"}")
         self.Enterbutton.setObjectName("Enterbutton")
         
         self.backbutton = QtWidgets.QPushButton(Form)
         self.backbutton.setGeometry(QtCore.QRect(353, 525, 350, 45))
-        self.backbutton.setStyleSheet("\n"
-"padding:500px;\n"
-"background-color: red;\n"
-"background: none;\n"
-"border: 1px solid black;\n"
-"")
+        self.backbutton.setStyleSheet("QPushButton {\n"
+"     background-color: #E0E0E0; \n"
+"     color: black;\n"
+"     border: 1px solid #BDBDBD;\n"
+"     border-radius: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"     background-color: #EAEAEA;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"     background-color: #D6D6D6;\n"
+"}")
         self.backbutton.setObjectName("backbutton") 
+        
+        self.Update = QtWidgets.QPushButton(Form)
+        self.Update.setGeometry(QtCore.QRect(353, 580, 350, 45))
+        self.Update.setStyleSheet("QPushButton {\n"
+"     background-color: #E0E0E0; \n"
+"     color: black;\n"
+"     border: 1px solid #BDBDBD;\n"
+"     border-radius: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"     background-color: #EAEAEA;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"     background-color: #D6D6D6;\n"
+"}")
+        self.Update.setObjectName("") 
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -94,6 +130,8 @@ class Ui_Form(object):
             count += 1
             time.sleep(0.01)
             self.LoadingBar.setValue(count)
+            
+            
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -103,6 +141,7 @@ class Ui_Form(object):
         self.inputPassword.setPlaceholderText(_translate("Form", "Password"))
         self.Enterbutton.setText(_translate("Form", "Enter"))
         self.backbutton.setText(_translate("Form", "Back"))       
+        self.Update.setText(_translate("Form", "Forget Password?")) 
 
 import rsc         
 

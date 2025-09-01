@@ -13,6 +13,7 @@ from searchfood import Ui_searchfood as searchfood_Window
 import calories_formula
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+from Updatedata import Ui_Form as Update_Window
 import numpy as np
 
 class MplCanvas(FigureCanvas):
@@ -177,6 +178,13 @@ class searchfood(QDialog):
                 "carbs": result[3]
             }
         return None
+    
+class UpdateData(QDialog):
+    def __init__(self, manager):
+        super().__init__()
+        self.searchfoodwin = Update_Window()
+        self.searchfoodwin.setupUi(self)
+        self.manager = manager
                 
 class Home(QMainWindow):
     def __init__(self, manager):
@@ -188,6 +196,7 @@ class Home(QMainWindow):
         self.homewin.LogoutButton.clicked.connect(self.logout_clicked)
         self.homewin.FoodlogButton.clicked.connect(lambda: self.manager.show_foodlog())
         self.homewin.progress.clicked.connect(lambda: self.manager.show_progress())
+        self.homewin.update_weight.clicked.connect(lambda: self.manager.updatedata.exec_())
     
     def logout_clicked(self):
         self.manager.show_login()
@@ -552,7 +561,8 @@ class Mainapp(QMainWindow):
         self.foodlog = Foodlog(self)
         self.addmanualmenu = Addmanual(self)
         self.searchfoodmenu = searchfood(self)
-                
+        self.updatedata = UpdateData(self)
+            
         self.stackwidget = QStackedWidget()
         self.setCentralWidget(self.stackwidget)
         

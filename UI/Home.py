@@ -332,7 +332,7 @@ class Home_Window(object):
         self.HomeButton.setText(_translate("MainWindow", "Home"))
         self.FoodlogButton.setText(_translate("MainWindow", "Food Log"))
         self.progress.setText(_translate("MainWindow", "Progress"))
-        self.update_weight.setText(_translate("MainWindow", "Update Weight"))
+        self.update_weight.setText(_translate("MainWindow", "Update Data"))
         self.LogoutButton.setText(_translate("MainWindow", "Log Out"))
         self.CaloriBar.setFormat(_translate("MainWindow", "%v"))
         self.BreakfastLayout.setText(_translate("MainWindow", "Breakfast (cal)"))
