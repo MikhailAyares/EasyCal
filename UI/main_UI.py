@@ -1,6 +1,7 @@
 import sys
 from datetime import date, datetime
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QStackedWidget, QMessageBox, QDialog, QVBoxLayout, QTableWidgetItem
+from PyQt5.QtGui import QIcon
 from Signup import Signup_Window
 from Login import Ui_Form as Login_Window
 from Prelogin import Prelogin_Window
@@ -20,7 +21,7 @@ class MplCanvas(FigureCanvas):
     def __init__(self, parent=None):
         self.fig = Figure(figsize=(6, 3), dpi=75)
         self.axes = self.fig.add_subplot(111)
-        super().__init__()
+        super().__init__(self.fig)
         self.setParent(parent)
         self.updateGeometry()
 
@@ -398,25 +399,30 @@ class Progress(QMainWindow):
             self.show_no_data_message()
             return
 
-        weight_history = get_weight_history(username)
-        calorie_history = get_calorie_history(username)
+        weight_data = get_weight_history(username)
+        calorie_data = get_calorie_history(username)
 
         start_weight = float(user_data.get('start_weight', 0))
         current_weight = float(user_data.get('current_weight', 0))
         goal_weight = float(user_data.get('goal_weight', 0))
 
         target_calories = get_latest_target_calories(username)
-
-        if not calorie_history:
-            calorie_history = [0]
         
         self.update_progress(start_weight, current_weight, goal_weight)
-        self.predict_goal_achievement(start_weight, goal_weight, current_weight, calorie_history, target_calories)
-        self.setup_graphs(weight_history, calorie_history, target_calories)
+        self.predict_goal_achievement(start_weight, goal_weight, current_weight, calorie_data, target_calories)
+        self.setup_graphs(weight_data, calorie_data, target_calories)
 
     def add_canvas_to_placeholder(self, placeholder, canvas):
-        layout = QVBoxLayout(placeholder)
-        layout.addWidget(canvas)
+        if placeholder.layout() is not None:
+            while placeholder.layout().count():
+                child = placeholder.layout().takeAt(0)
+                if child.widget():
+                    child.widget().deleteLater()
+        else:
+            layout = QVBoxLayout()
+            placeholder.setLayout(layout)
+
+        placeholder.layout().addWidget(canvas)
 
     def setup_graphs(self, weight_data, calorie_data, target_calories):
         if self.progresswin.weight_graph_placeholder:
@@ -575,6 +581,7 @@ class Progress(QMainWindow):
 class Mainapp(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setWindowIcon(QIcon("Logokecil.png"))
         self.setWindowTitle("EasyCal")
         self.setFixedSize(1056, 820)
 
