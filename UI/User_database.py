@@ -38,6 +38,25 @@ cursor.execute("""
 conn.commit()
 conn.close()
 
+conn = sqlite3.connect("../db/users.db")
+cursor = conn.cursor()
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS meal_log (
+        meal_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        meal_name TEXT NOT NULL,
+        log_time TEXT NOT NULL,
+        calories REAL DEFAULT 0,
+        protein REAL DEFAULT 0,
+        fat REAL DEFAULT 0,
+        carbs REAL DEFAULT 0,
+        portion REAL DEFAULT 1,
+        FOREIGN KEY (username) REFERENCES users (username)
+    )
+""")
+conn.commit()
+conn.close()
+
 def Register(username, password, age, gender, start_weight, goal_weight, activity_level, weekly_goal, height): #masukin data ke db
     
     password_hash = hashlib.sha256(password.encode()).hexdigest()
@@ -186,4 +205,40 @@ def get_calories(username, date):
     finally:
         conn.close()
 
+def add_meal_log(username, meal_name, calories, protein, fat, carbs, portion):
+    conn = sqlite3.connect('../db/users.db')
+    cursor = conn.cursor()
+    
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    
+    try:
+        cursor.execute("""
+            INSERT INTO meal_log (username, meal_name, log_time, calories, protein, fat, carbs, portion)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (username, meal_name, current_time, calories, protein, fat, carbs, portion))
+        conn.commit()
+        print(f"Meal log '{meal_name}' untuk '{username}' berhasil ditambahkan.")
+        
+        update_calories(username, calories)
 
+        return True
+    except sqlite3.Error as e:
+        print(f"Gagal menambahkan meal log: {e}")
+        return False
+    finally:
+        conn.close()
+
+def get_meal_logs_by_date(username, date):
+    conn = sqlite3.connect('../db/users.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("SELECT * FROM meal_log WHERE username = ? AND date(log_time) = ?", (username, date))
+        rows = cursor.fetchall()
+        return [dict(row) for row in rows]
+    except sqlite3.Error as e:
+        print(f"Gagal mengambil meal logs: {e}")
+        return []
+    finally:
+        conn.close()
