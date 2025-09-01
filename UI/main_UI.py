@@ -122,7 +122,7 @@ class Signup(QDialog):
             calories_min = calories_formula.calories_min(bmr, activity_level)
             calories_deficit = calories_formula.calories_deficit(calories_min, weekly_goal)
             target_calories = calories_formula.calories_target(calories_min, calories_deficit, goal_weight, start_weight)
-            save_target_calories(username, target_calories)
+            save_target_calories(username, target_calories, start_weight)
             msg_box.information(self, "Sukses", "Data berhasil disimpan. Silakan login.")
             self.accept() 
         else:

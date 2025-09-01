@@ -161,24 +161,24 @@ def update_data(username, current_weight, goal_weight, activity_level):
 def update_calories(username, calories_to_add):
     conn = sqlite3.connect('../db/users.db')
     cursor = conn.cursor()
-    
     now = datetime.now()
     current_date = now.strftime('%Y-%m-%d')
     current_hour = now.hour
 
     try:
-        cursor.execute("SELECT breakfast_cal, lunch_cal, dinner_cal, target_cal FROM daily_calories WHERE username = ? AND date = ?", (username, current_date))
+        cursor.execute("SELECT breakfast_cal, lunch_cal, dinner_cal, target_cal, current_weight FROM daily_calories WHERE username = ? AND date = ?", (username, current_date))
         existing_data = cursor.fetchone()
 
         if existing_data:
-            breakfast_cal, lunch_cal, dinner_cal, target_cal = existing_data
+            breakfast_cal, lunch_cal, dinner_cal, target_cal, existing_weight = existing_data
         else:
             breakfast_cal, lunch_cal, dinner_cal = 0, 0, 0
             target_cal = get_latest_target_calories(username)
-            
+            user_info = get_data(username)
+            existing_weight = user_info.get('current_weight') if user_info else None
+
         if 0 <= current_hour < 12:  
             breakfast_cal += calories_to_add
-            print(f"Menambahkan {calories_to_add} kalori ke sarapan.")
         elif 12 <= current_hour < 18: 
             lunch_cal += calories_to_add
         else: 
@@ -188,13 +188,12 @@ def update_calories(username, calories_to_add):
 
         cursor.execute("""
             INSERT OR REPLACE INTO daily_calories 
-            (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal, target_cal) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (username, current_date, breakfast_cal, lunch_cal, dinner_cal, total_cal, target_cal))
+            (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal, target_cal, current_weight) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (username, current_date, breakfast_cal, lunch_cal, dinner_cal, total_cal, target_cal, existing_weight))
         
         conn.commit()
         return True
-
     except sqlite3.Error as e:
         print(f"Gagal menyimpan data kalori: {e}")
         return False
@@ -296,20 +295,19 @@ def get_latest_target_calories(username):
     finally:
         conn.close()
 
-def save_target_calories(username, target_calories):
+def save_target_calories(username, target_calories, initial_weight):
     conn = sqlite3.connect('../db/users.db')
     cursor = conn.cursor()
     today_str = datetime.now().strftime('%Y-%m-%d')
     try:
         cursor.execute("""
-            INSERT INTO daily_calories (username, date, target_cal)
-            VALUES (?, ?, ?)
+            INSERT INTO daily_calories (username, date, target_cal, current_weight)
+            VALUES (?, ?, ?, ?)
             ON CONFLICT(username, date) DO UPDATE SET
-            target_cal = excluded.target_cal;
-        """, (username, today_str, target_calories))
-        
+            target_cal = excluded.target_cal,
+            current_weight = excluded.current_weight;
+        """, (username, today_str, target_calories, initial_weight))
         conn.commit()
-        print(f"Target kalori untuk {username} pada {today_str} tersimpan: {target_calories}")
         return True
     except sqlite3.Error as e:
         print(f"Gagal menyimpan target kalori: {e}")
