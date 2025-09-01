@@ -1,11 +1,11 @@
 import sys
-from datetime import date
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QStackedWidget, QMessageBox, QDialog, QVBoxLayout
+from datetime import date, datetime
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QStackedWidget, QMessageBox, QDialog, QVBoxLayout, QTableWidgetItem
 from Signup import Signup_Window
 from Login import Ui_Form as Login_Window
 from Prelogin import Prelogin_Window
 from Home import Home_Window
-from User_database import Register, login, get_data, update_calories, get_calories
+from User_database import Register, login, get_data, update_calories, get_calories, add_meal_log, get_meal_logs_by_date
 from Progress import Ui_MainWindow as Progress_Window
 from Foodlog import Ui_MainWindow as Foodlog_Window
 from Addmanual import Ui_Addmanual as Addmanual_Window
@@ -126,15 +126,44 @@ class Addmanual(QDialog):
         self.addmanualwin = Addmanual_Window()
         self.addmanualwin.setupUi(self)
         self.manager = manager
+        self.addmanualwin.save.clicked.connect(self.accept)
+        self.addmanualwin.cancel.clicked.connect(self.reject)
+    
+    def get_data(self):
+        return {
+            "name": self.addmanualwin.insertname.text(),
+            "calories": self.addmanualwin.insercalories.value(),
+            "protein": self.addmanualwin.insertprotein.value(),
+            "fat": self.addmanualwin.insertfat.value(),
+            "carbs": self.addmanualwin.insercarbs.value(),
+            "portion": self.addmanualwin.insertportion.value()
+        }
 
 class searchfood(QDialog):
     def __init__(self, manager):
         super().__init__()
         self.searchfoodwin = searchfood_Window()
         self.searchfoodwin.setupUi(self)
-        
         self.manager = manager
 
+        self.searchfoodwin.pushButton_4.clicked.disconnect()
+        self.searchfoodwin.pushButton_4.clicked.connect(self.accept)
+
+    def get_picked_items(self):
+        return self.searchfoodwin.picked_item
+
+    def get_food_details(self, food_name):
+        cursor = self.searchfoodwin.cursor
+        cursor.execute("SELECT calories, proteins, fat, carbohydrate FROM nutrisi WHERE name = ?", (food_name,))
+        result = cursor.fetchone()
+        if result:
+            return {
+                "calories": result[0],
+                "proteins": result[1],
+                "fat": result[2],
+                "carbs": result[3]
+            }
+        return None
                 
 class Home(QMainWindow):
     def __init__(self, manager):
@@ -209,13 +238,78 @@ class Foodlog(QMainWindow):
         self.foodlogwin.addmanual.clicked.connect(self.show_addmanual)
         self.foodlogwin.searchfood.clicked.connect(self.show_searchfood)
         
+    def load_and_display_meals(self):
+        if not self.manager.current_user:
+            return
+
+        today_str = date.today().strftime('%Y-%m-%d')
+        meal_logs = get_meal_logs_by_date(self.manager.current_user, today_str)
+        
+        table = self.foodlogwin.table
+        table.setRowCount(0)
+        
+        for row_num, meal in enumerate(meal_logs):
+            table.insertRow(row_num)
+            
+            log_time = datetime.strptime(meal['log_time'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')
+            calories = f"{meal['calories']:.1f}"
+            protein = f"{meal['protein']:.1f}"
+            fat = f"{meal['fat']:.1f}"
+            carbs = f"{meal['carbs']:.1f}"
+            portion = f"{meal['portion']:.1f} gr"
+            
+            table.setItem(row_num, 0, QTableWidgetItem(meal['meal_name']))
+            table.setItem(row_num, 1, QTableWidgetItem(log_time))
+            table.setItem(row_num, 2, QTableWidgetItem(calories))
+            table.setItem(row_num, 3, QTableWidgetItem(protein))
+            table.setItem(row_num, 4, QTableWidgetItem(fat))
+            table.setItem(row_num, 5, QTableWidgetItem(carbs))
+            table.setItem(row_num, 6, QTableWidgetItem(portion))
+
     def show_addmanual(self):
         calladdmanual = Addmanual(self.manager)
-        calladdmanual.exec_()
+        if calladdmanual.exec_() == QDialog.Accepted:
+            data = calladdmanual.get_data()
+            if not data['name'] or data['portion'] == 0:
+                QMessageBox.warning(self, "Input tidak lengkap", "nama makanan dan porsi jangan kosong.")
+                return
+
+            add_meal_log(
+                username=self.manager.current_user,
+                meal_name=data['name'],
+                calories=data['calories'],
+                protein=data['protein'],
+                fat=data['fat'],
+                carbs=data['carbs'],
+                portion=data['portion']
+            )
+            self.load_and_display_meals()
     
     def show_searchfood(self):
         callsearchfood = searchfood(self.manager)
-        callsearchfood.exec_()
+        callsearchfood = searchfood(self.manager)
+        if callsearchfood.exec_() == QDialog.Accepted:
+            picked_items = callsearchfood.get_picked_items()
+            
+            for name, portion in picked_items.items():
+                food_details = callsearchfood.get_food_details(name)
+                if food_details:
+                    multiplier = portion / 100.0
+                    calories = food_details['calories'] * multiplier
+                    protein = food_details['proteins'] * multiplier
+                    fat = food_details['fat'] * multiplier
+                    carbs = food_details['carbs'] * multiplier
+                    
+                    add_meal_log(
+                        username=self.manager.current_user,
+                        meal_name=name,
+                        calories=calories,
+                        protein=protein,
+                        fat=fat,
+                        carbs=carbs,
+                        portion=portion
+                    )
+            self.load_and_display_meals()
         
 class Progress(QMainWindow):
     def __init__(self, manager):
@@ -444,8 +538,9 @@ class Mainapp(QMainWindow):
         self.stackwidget.setCurrentWidget(self.home)
         
     def show_foodlog(self):
+        self.foodlog.load_and_display_meals()
         self.stackwidget.setCurrentWidget(self.foodlog)
-        
+
     def show_progress(self):
         self.stackwidget.setCurrentWidget(self.progress)
         
