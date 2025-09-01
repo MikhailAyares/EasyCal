@@ -3,4 +3,3 @@ python-dotenv
 numpy
 matplotlib
 pillow
-colorama

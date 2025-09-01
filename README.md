@@ -26,8 +26,7 @@ cd EasyCal
 ```
 2. Install dependencies
 ```bash
-pip install PyQt5 
-pip install matplotlib
+pip install requirements.txt
 ```
 3. Run the app
 ```bash
