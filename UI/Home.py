@@ -206,10 +206,16 @@ class Home_Window(object):
         
         self.WeighProgressBar = QtWidgets.QProgressBar(self.main_body)
         self.WeighProgressBar.setGeometry(QtCore.QRect(323, 490, 411, 31))
-        self.WeighProgressBar.setStyleSheet("QProgressBar { background:none; border: 1.3px solid black; border-radius: 5px; text-align: center; } QProgressBar::chunk { background-color: rgb(250, 239, 209); }")
-        self.WeighProgressBar.setMinimum(0)
-        self.WeighProgressBar.setMaximum(9999)
-        self.WeighProgressBar.setProperty("value", 0)
+        self.WeighProgressBar.setStyleSheet("QProgressBar {\n"
+"     border: 1px solid grey;\n"
+"     border-radius: 5px;\n"
+"     text-align: center;\n"
+"     background-color: white;\n"
+"}\n"
+"QProgressBar::chunk {\n"
+"     background-color: #85d4d1; \n"
+"     width: 10px;\n"
+"}")
         self.WeighProgressBar.setTextVisible(False)
         self.WeighProgressBar.setObjectName("WeighProgressBar")
         
@@ -347,7 +353,6 @@ class Home_Window(object):
         self.Kg.setText(_translate("MainWindow", "Kg"))
         self.Cm.setText(_translate("MainWindow", "Cm"))
         self.WeightProgressLabel.setText(_translate("MainWindow", "Weight Progress"))
-        self.WeighProgressBar.setFormat(_translate("MainWindow", "v"))
         self.StartWeightLabel.setText(_translate("MainWindow", "Start :"))
         self.GoalWeightLabel.setText(_translate("MainWindow", "Goal :"))
         self.Kg_2.setText(_translate("MainWindow", "Kg"))

@@ -256,6 +256,21 @@ class Home(QMainWindow):
             self.homewin.DisplayWeightLabel.setText(str(user_data['current_weight']))
             self.homewin.DisplayWeightLabel2.setText(str(user_data['start_weight']))
             self.homewin.DisplayWeightLabel3.setText(str(user_data['goal_weight']))
+            self.homewin.WeighProgressBar.setFormat("%v%")
+            self.homewin.WeighProgressBar.setInvertedAppearance(False)
+            
+            start_weight = user_data.get('start_weight', 0)
+            current_weight = user_data.get('current_weight', 0)
+            goal_weight = user_data.get('goal_weight', 0)
+
+            self.homewin.WeighProgressBar.setRange(int(min(start_weight, goal_weight)), int(max(start_weight, goal_weight)))
+            self.homewin.WeighProgressBar.setValue(int(current_weight))
+            self.homewin.WeighProgressBar.setFormat(f"{current_weight:.1f} kg")
+
+            if start_weight > goal_weight:
+                self.homewin.WeighProgressBar.setInvertedAppearance(True)
+            else:
+                self.homewin.WeighProgressBar.setInvertedAppearance(False)
             
             today_str = date.today().strftime('%Y-%m-%d')
             calories_data = get_calories(username, today_str)
