@@ -439,7 +439,7 @@ class Progress(QMainWindow):
             days = range(1, len(weight_data) + 1)
             ax.set_facecolor('#f8f8f8') 
             ax.plot(days, weight_data, marker='o', linestyle='-', color='#6495ED', linewidth=2, markersize=7)
-            ax.set_title("Your Weight Journey", fontsize=14, fontweight='bold', color='#333333', fontname='Segoe UI')
+            ax.set_xlabel("Day", fontsize=11, color='#555555', fontname='Segoe UI')
             ax.set_ylabel("Weight (kg)", fontsize=11, color='#555555', fontname='Segoe UI')
             ax.grid(True, linestyle='--', alpha=0.6, color='#CCCCCC')
             ax.spines['top'].set_visible(False)
@@ -448,7 +448,7 @@ class Progress(QMainWindow):
             ax.spines['bottom'].set_color('#BBBBBB')
             ax.tick_params(axis='y', labelsize=9, colors='#666666')
             ax.set_xticks(days)
-            ax.set_xticklabels([f"Day {d}" for d in days], rotation=45, ha='right', fontsize=8) 
+            ax.set_xticklabels([d for d in days], rotation=45, ha='right', fontsize=8) 
 
         else:
             ax.text(0.5, 0.5, "Update your weight to see progress", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes, fontsize=12, color='#888888')
@@ -471,7 +471,7 @@ class Progress(QMainWindow):
                 else:
                     colors.append('#2ECC71') 
             ax.bar(days, calorie_data, color=colors, width=0.7, edgecolor='white', linewidth=0.8)
-            ax.set_title("Your Daily Calorie Intake", fontsize=14, fontweight='bold', color='#333333', fontname='Segoe UI')
+            ax.set_xlabel("Day", fontsize=11, color='#555555', fontname='Segoe UI')
             ax.set_ylabel("Calories (kcal)", fontsize=11, color='#555555', fontname='Segoe UI')
             ax.grid(axis='y', linestyle='--', alpha=0.6, color='#CCCCCC')
             ax.grid(axis='x', visible=False)
@@ -481,7 +481,7 @@ class Progress(QMainWindow):
             ax.spines['bottom'].set_color('#BBBBBB')
             ax.tick_params(axis='y', labelsize=9, colors='#666666')
             ax.set_xticks(days)
-            ax.set_xticklabels([f"Day {d}" for d in days], rotation=45, ha='right', fontsize=8)
+            ax.set_xticklabels([d for d in days], rotation=45, ha='right', fontsize=8)
         else:
             ax.text(0.5, 0.5, "Log your food to see calorie trends", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes, fontsize=12, color='#888888')
             ax.set_xticks([]); ax.set_yticks([])
