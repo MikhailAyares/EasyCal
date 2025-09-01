@@ -126,6 +126,13 @@ class Addmanual(QDialog):
         self.addmanualwin = Addmanual_Window()
         self.addmanualwin.setupUi(self)
         self.manager = manager
+
+        self.addmanualwin.insercalories.setMaximum(9999.99)
+        self.addmanualwin.insertprotein.setMaximum(9999.99)
+        self.addmanualwin.insertfat.setMaximum(9999.99)
+        self.addmanualwin.insercarbs.setMaximum(9999.99)
+        self.addmanualwin.insertportion.setMaximum(9999.99)
+
         self.addmanualwin.save.clicked.connect(self.accept)
         self.addmanualwin.cancel.clicked.connect(self.reject)
     

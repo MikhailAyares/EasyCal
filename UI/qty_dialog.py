@@ -6,8 +6,9 @@ class QtyDialog(QtWidgets.QDialog, qty):
         super().__init__(parent)   
         self.setupUi(self)
 
-        self.pushButton.clicked.connect(self.reject)
+        self.doubleSpinBox.setMaximum(9999.99)
 
+        self.pushButton.clicked.connect(self.reject)
         self.pushButton_2.clicked.connect(self.accept)
 
 
