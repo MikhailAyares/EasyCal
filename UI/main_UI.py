@@ -22,7 +22,7 @@ import numpy as np
 class EditTimeDialog(QDialog):
     def __init__(self, current_time, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Edit Meal Time")
+        self.setWindowTitle("Time")
         
         self.layout = QVBoxLayout(self)
         self.timeEdit = QTimeEdit(self)
@@ -376,11 +376,11 @@ class Foodlog(QMainWindow):
 
             edit_button = QPushButton("Edit")
             edit_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-            edit_button.setStyleSheet("background-color: #64B5F6; color: white;")
+            edit_button.setStyleSheet("background-color: rgb(111, 192, 195); color: white;")
             
             delete_button = QPushButton("Delete")
             delete_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-            delete_button.setStyleSheet("background-color: #E57373; color: white;")
+            delete_button.setStyleSheet("background-color: rgb(111, 192, 195); color: white;")
 
             options_layout.addWidget(edit_button)
             options_layout.addWidget(delete_button)
@@ -406,7 +406,7 @@ class Foodlog(QMainWindow):
     def handle_delete_meal(self, meal_id):
         confirm_box = QMessageBox()
         reply = confirm_box.question(self, 'Konfirmasi Hapus', 
-                                     "Anda yakin ingin menghapus catatan makanan ini?",
+                                     "Anda yakin ingin menghapus makanan ini?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
