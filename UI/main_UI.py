@@ -488,10 +488,6 @@ class Progress(QMainWindow):
     def load_user_data(self, username):
         print(f"Loading progress data for user: {username}")
         user_data = get_data(username)
-        if not user_data:
-            self.show_no_data_message()
-            return
-
         weight_data = get_weight_history(username)
         calorie_data = get_calorie_history(username)
         target_calories = get_latest_target_calories(username)
@@ -527,7 +523,7 @@ class Progress(QMainWindow):
     def plot_calories_graph(self, calorie_data, target_calories):
         ax = self.calories_canvas.axes
         ax.cla()
-        if calorie_data and target_calories:
+        if calorie_data and any(c > 0 for c in calorie_data) and target_calories:
             days = range(1, len(calorie_data) + 1)
             ax.set_facecolor('#f8f8f8') 
             colors = []
@@ -615,16 +611,6 @@ class Progress(QMainWindow):
                 self.progresswin.days_to_goal_label.setText("Increase calories for progress")
         else:
             self.progresswin.days_to_goal_label.setText("Goal Achieved!")
-
-    def show_no_data_message(self):
-        self.progresswin.start_label.setText("...")
-        self.progresswin.current_label.setText("...")
-        self.progresswin.goal_label.setText("...")
-        self.progresswin.progress_bar.setValue(0)
-        self.progresswin.percentage_label.setText("N/A")
-        self.progresswin.days_to_goal_label.setText("No data")
-        self.plot_weight_graph(None)
-        self.plot_calories_graph(None, None)
         
 class Mainapp(QMainWindow):
     def __init__(self):
