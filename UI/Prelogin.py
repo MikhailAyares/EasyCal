@@ -9,12 +9,11 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import rsc
 
 class Prelogin_Window(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setWindowIcon(QtGui.QIcon("Logokecil.png"))
+        MainWindow.setWindowIcon(QtGui.QIcon("icons/Logokecil.png"))
         MainWindow.setGeometry(700,200,700, 700)
         MainWindow.setStyleSheet("background-color: rgb(254,251,234);")
         MainWindow.setFixedSize(1056,820)
@@ -27,7 +26,7 @@ class Prelogin_Window(object):
         self.titleImage = QtWidgets.QLabel(self.centralwidget)
         self.titleImage.setGeometry(QtCore.QRect(228, 100, 600, 150))
         self.titleImage.setObjectName("titleImage")
-        self.titleImage.setPixmap(QtGui.QPixmap("Logo.png"))
+        self.titleImage.setPixmap(QtGui.QPixmap("icons/Logo.png"))
         self.titleImage.setAlignment(QtCore.Qt.AlignCenter)
         
         #self.label = QtWidgets.QLabel(self.centralwidget)

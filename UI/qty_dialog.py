@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets
-from qty import Ui_Form as qty
+from UI.qty import Ui_Form as qty
 
 class QtyDialog(QtWidgets.QDialog, qty):
     def __init__(self, parent=None):

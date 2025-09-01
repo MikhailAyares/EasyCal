@@ -4,19 +4,19 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QStackedWidget, 
 from PyQt5.QtCore import QTime
 from PyQt5.QtGui import QIcon
 from PyQt5 import QtGui, QtCore, QtWidgets
-from Signup import Signup_Window
-from Login import Ui_Form as Login_Window
-from Prelogin import Prelogin_Window
-from Home import Home_Window
-from User_database import Register, login, update_data, get_data, get_calories, add_meal_log, get_meal_logs_by_date, get_calorie_history, get_weight_history, get_latest_target_calories, save_target_calories, delete_meal_log, update_meal_log_time
-from Progress import Ui_MainWindow as Progress_Window
-from Foodlog import Ui_MainWindow as Foodlog_Window
-from Addmanual import Ui_Addmanual as Addmanual_Window
-from searchfood import Ui_searchfood as searchfood_Window
-import calories_formula
+from UI.Signup import Signup_Window
+from UI.Login import Ui_Form as Login_Window
+from UI.Prelogin import Prelogin_Window
+from UI.Home import Home_Window
+from UI.User_database import Register, login, update_data, get_data, get_calories, add_meal_log, get_meal_logs_by_date, get_calorie_history, get_weight_history, get_latest_target_calories, save_target_calories, delete_meal_log, update_meal_log_time
+from UI.Progress import Ui_MainWindow as Progress_Window
+from UI.Foodlog import Ui_MainWindow as Foodlog_Window
+from UI.Addmanual import Ui_Addmanual as Addmanual_Window
+from UI.searchfood import Ui_searchfood as searchfood_Window
+import UI.calories_formula as calories_formula
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from Updatedata import Ui_Form as Update_Window
+from UI.Updatedata import Ui_Form as Update_Window
 import numpy as np
 
 class EditTimeDialog(QDialog):
@@ -629,7 +629,7 @@ class Progress(QMainWindow):
 class Mainapp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowIcon(QIcon("Logokecil.png"))
+        self.setWindowIcon(QIcon("icons/Logokecil.png"))
         self.setWindowTitle("EasyCal")
         self.setFixedSize(1056, 820)
 

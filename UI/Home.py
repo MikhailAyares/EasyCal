@@ -15,7 +15,7 @@ class Home_Window(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1056, 820)
-        MainWindow.setWindowIcon(QtGui.QIcon("Logokecil.png"))
+        MainWindow.setWindowIcon(QtGui.QIcon("icons/Logokecil.png"))
         MainWindow.setStyleSheet("background-color: rgb(254,251,234);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -231,13 +231,13 @@ class Home_Window(object):
         
         self.FatLogo = QtWidgets.QLabel(self.main_body)
         self.FatLogo.setGeometry(QtCore.QRect(323, 450, 41, 41))
-        self.FatLogo.setStyleSheet("background:none; image: url(:/image/fatlogo.png);")
+        self.FatLogo.setStyleSheet("background:none; image: url(icons/fatlogo.png);")
         self.FatLogo.setText("")
         self.FatLogo.setObjectName("FatLogo")
         
         self.Fitlogo = QtWidgets.QLabel(self.main_body)
         self.Fitlogo.setGeometry(QtCore.QRect(683, 440, 51, 61))
-        self.Fitlogo.setStyleSheet("background:none; image: url(:/image/fitlogo.png);")
+        self.Fitlogo.setStyleSheet("background:none; image: url(icons/fitlogo.png);")
         self.Fitlogo.setText("")
         self.Fitlogo.setObjectName("Fitlogo")
         
@@ -280,7 +280,7 @@ class Home_Window(object):
         self.HomeButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.HomeButton.setStyleSheet("QPushButton { background-color: rgb(111, 192, 195); color: white; } QPushButton:hover { background-color: rgb(100, 173, 173); }")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Homelogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons/Homelogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.HomeButton.setIcon(icon)
         self.HomeButton.setIconSize(QtCore.QSize(14, 14))
         self.HomeButton.setObjectName("home")
@@ -290,7 +290,7 @@ class Home_Window(object):
         self.FoodlogButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.FoodlogButton.setStyleSheet("QPushButton { background-color: rgb(111, 192, 195); color: white; } QPushButton:hover { background-color: rgb(100, 173, 173); }")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("Foodlog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("icons/Foodlog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.FoodlogButton.setIcon(icon1)
         self.FoodlogButton.setIconSize(QtCore.QSize(14, 14))
         self.FoodlogButton.setObjectName("Foodlog")
@@ -300,7 +300,7 @@ class Home_Window(object):
         self.progress.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.progress.setStyleSheet("QPushButton { background-color: rgb(111, 192, 195); color: white; } QPushButton:hover { background-color: rgb(100, 173, 173); }")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("Progresslogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("icons/Progresslogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.progress.setIcon(icon2)
         self.progress.setIconSize(QtCore.QSize(16, 16))
         self.progress.setObjectName("progress")
@@ -310,7 +310,7 @@ class Home_Window(object):
         self.update_weight.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.update_weight.setStyleSheet("QPushButton { background-color: rgb(111, 192, 195); color: white; } QPushButton:hover { background-color: rgb(100, 173, 173); }")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("weighticon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("icons/weighticon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.update_weight.setIcon(icon3)
         self.update_weight.setIconSize(QtCore.QSize(0, 0))
         self.update_weight.setObjectName("progress")
@@ -334,7 +334,7 @@ class Home_Window(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "EasyCal"))
-        self.title.setPixmap(QtGui.QPixmap("Logokecil.png"))
+        self.title.setPixmap(QtGui.QPixmap("icons/Logokecil.png"))
         self.HomeButton.setText(_translate("MainWindow", "Home"))
         self.FoodlogButton.setText(_translate("MainWindow", "Food Log"))
         self.progress.setText(_translate("MainWindow", "Progress"))
@@ -358,7 +358,6 @@ class Home_Window(object):
         self.Kg_2.setText(_translate("MainWindow", "Kg"))
         self.Kg_3.setText(_translate("MainWindow", "Kg"))
         
-import rsc
 
 
 if __name__ == "__main__":

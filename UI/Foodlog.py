@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1056, 820)
-        MainWindow.setWindowIcon(QtGui.QIcon("Logokecil.png"))
+        MainWindow.setWindowIcon(QtGui.QIcon("icons/Logokecil.png"))
         MainWindow.setStyleSheet("background-color: rgb(254,251,234);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -225,7 +225,7 @@ class Ui_MainWindow(object):
 "    border-right: 1px solid #508080;\n"
 "}")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Searchicon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons/Searchicon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.searchfood.setIcon(icon)
         self.searchfood.setIconSize(QtCore.QSize(50, 50))
         self.searchfood.setObjectName("searchfood")
@@ -258,7 +258,7 @@ class Ui_MainWindow(object):
 "    border-right: 1px solid #508080;\n"
 "}")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("Plusicon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("icons/Plusicon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.addmanual.setIcon(icon1)
         self.addmanual.setIconSize(QtCore.QSize(50, 50))
         self.addmanual.setObjectName("addmanual")
@@ -480,7 +480,7 @@ QTableCornerButton::section {
 "    background-color: rgb(100, 173, 173);\n"
 "}")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("Homelogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("icons/Homelogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.home.setIcon(icon2)
         self.home.setIconSize(QtCore.QSize(14, 14))
         self.home.setCheckable(False)
@@ -496,7 +496,7 @@ QTableCornerButton::section {
 "    background-color: rgb(100, 173, 173);\n"
 "}")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("Foodlog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("icons/Foodlog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.foodlog.setIcon(icon3)
         self.foodlog.setIconSize(QtCore.QSize(14, 14))
         self.foodlog.setObjectName("foodlog")
@@ -511,7 +511,7 @@ QTableCornerButton::section {
 "    background-color: rgb(100, 173, 173);\n"
 "}")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("Progresslogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("icons/Progresslogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.progress.setIcon(icon4)
         self.progress.setIconSize(QtCore.QSize(14, 14))
         self.progress.setObjectName("progress")
@@ -527,7 +527,7 @@ QTableCornerButton::section {
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.title.setPixmap(QtGui.QPixmap("Logokecil.png"))
+        self.title.setPixmap(QtGui.QPixmap("icons/Logokecil.png"))
         self.consumed.setText(_translate("MainWindow", "Consumed"))
         self.calorie_2.setText(_translate("MainWindow", "550 cal"))
         self.goal.setText(_translate("MainWindow", "Goal"))
@@ -561,7 +561,6 @@ QTableCornerButton::section {
         self.home.setText(_translate("MainWindow", "Home"))
         self.foodlog.setText(_translate("MainWindow", "Food Log"))
         self.progress.setText(_translate("MainWindow", "Progress"))
-import rsc
 
 
 if __name__ == "__main__":

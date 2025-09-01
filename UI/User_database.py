@@ -1,9 +1,9 @@
 import sqlite3
 import hashlib
 from datetime import datetime
-import calories_formula
+import UI.calories_formula as calories_formula
 
-conn = sqlite3.connect("../db/users.db")
+conn = sqlite3.connect("db/users.db")
 cursor = conn.cursor()
 
 cursor.execute("""CREATE TABLE IF NOT EXISTS users ( 
@@ -23,7 +23,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users (
 conn.commit()
 conn.close()
 
-conn = sqlite3.connect("../db/users.db")
+conn = sqlite3.connect("db/users.db")
 cursor = conn.cursor()
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS daily_calories (
@@ -40,7 +40,7 @@ cursor.execute("""
 conn.commit()
 conn.close()
 
-conn = sqlite3.connect("../db/users.db")
+conn = sqlite3.connect("db/users.db")
 cursor = conn.cursor()
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS meal_log (
@@ -62,7 +62,7 @@ conn.close()
 def Register(username, password, age, gender, start_weight, goal_weight, activity_level, weekly_goal, height): #masukin data ke db
     
     password_hash = hashlib.sha256(password.encode()).hexdigest()
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
 
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -85,7 +85,7 @@ def Register(username, password, age, gender, start_weight, goal_weight, activit
 def login(username,password): #login, check data
         
     password_hash = hashlib.sha256(password.encode()).hexdigest()
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
     
     try: 
@@ -97,7 +97,7 @@ def login(username,password): #login, check data
         
 def get_data(username): 
     
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     conn.row_factory = sqlite3.Row 
     cursor = conn.cursor()
     
@@ -115,7 +115,7 @@ def get_data(username):
 
 def update_data(username, current_weight, goal_weight, activity_level):
     
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
     
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -160,7 +160,7 @@ def update_data(username, current_weight, goal_weight, activity_level):
         
 def update_calories(username, calories_to_add, meal_time=None):
 
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
     
     if meal_time:
@@ -207,7 +207,7 @@ def update_calories(username, calories_to_add, meal_time=None):
         conn.close()
 
 def delete_meal_log(meal_id):
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
     try:
         cursor.execute("SELECT username, calories, log_time FROM meal_log WHERE meal_id = ?", (meal_id,))
@@ -229,7 +229,7 @@ def delete_meal_log(meal_id):
         conn.close()
 
 def update_meal_log_time(meal_id, new_time):
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
     try:
         cursor.execute("SELECT username, calories, log_time FROM meal_log WHERE meal_id = ?", (meal_id,))
@@ -255,7 +255,7 @@ def update_meal_log_time(meal_id, new_time):
         conn.close()
 
 def get_calories(username, date):
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     try:
@@ -269,7 +269,7 @@ def get_calories(username, date):
         conn.close()
 
 def add_meal_log(username, meal_name, calories, protein, fat, carbs, portion):
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
     
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -292,7 +292,7 @@ def add_meal_log(username, meal_name, calories, protein, fat, carbs, portion):
         conn.close()
 
 def get_meal_logs_by_date(username, date):
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     
@@ -307,7 +307,7 @@ def get_meal_logs_by_date(username, date):
         conn.close()
 
 def get_calorie_history(username):
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
     try:
         cursor.execute("SELECT total_cal FROM daily_calories WHERE username = ? ORDER BY date ASC", (username,))
@@ -317,7 +317,7 @@ def get_calorie_history(username):
         conn.close()
 
 def get_weight_history(username):
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
     try:
         cursor.execute("""
@@ -331,7 +331,7 @@ def get_weight_history(username):
         conn.close()
 
 def get_latest_target_calories(username):
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
     try:
         cursor.execute("""
@@ -350,7 +350,7 @@ def get_latest_target_calories(username):
         conn.close()
 
 def save_target_calories(username, target_calories, initial_weight):
-    conn = sqlite3.connect('../db/users.db')
+    conn = sqlite3.connect('db/users.db')
     cursor = conn.cursor()
     today_str = datetime.now().strftime('%Y-%m-%d')
     try:

@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from qty_dialog import QtyDialog as QtyDialog
+from UI.qty_dialog import QtyDialog as QtyDialog
 import sqlite3
 import os
 from datetime import date
@@ -45,7 +45,7 @@ class Ui_searchfood(object):
 
         searchfood.setObjectName("searchfood")
         searchfood.resize(512, 272)
-        searchfood.setWindowIcon(QtGui.QIcon("Logokecil.png"))
+        searchfood.setWindowIcon(QtGui.QIcon("icons/Logokecil.png"))
         searchfood.setStyleSheet("background-color: rgb(254,251,234);")
         self.centralwidget = QtWidgets.QWidget(searchfood)
         self.centralwidget.setObjectName("centralwidget")

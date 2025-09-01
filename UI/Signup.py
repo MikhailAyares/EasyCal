@@ -15,7 +15,7 @@ class Signup_Window(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(800, 700)
-        Dialog.setWindowIcon(QtGui.QIcon("Logokecil.png"))
+        Dialog.setWindowIcon(QtGui.QIcon("icons/Logokecil.png"))
         Dialog.setStyleSheet("background-color: #f0f0f0;")
         self.Signuplabel = QtWidgets.QLabel(Dialog)
         self.Signuplabel.setGeometry(QtCore.QRect(175, 30, 450, 50))

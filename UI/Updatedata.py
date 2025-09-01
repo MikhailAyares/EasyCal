@@ -17,7 +17,7 @@ class Ui_Form(object):
         Form.resize(367, 331)
         Form.setStyleSheet("background-color: rgb(254,251,234);\n"
 "")
-        Form.setWindowIcon(QtGui.QIcon("Logokecil.png"))
+        Form.setWindowIcon(QtGui.QIcon("icons/Logokecil.png"))
         self.gridLayout = QtWidgets.QGridLayout(Form)
         self.gridLayout.setContentsMargins(20, 20, 20, 20)
         self.gridLayout.setHorizontalSpacing(5)

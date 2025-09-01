@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")  
         MainWindow.resize(1056, 820)
-        MainWindow.setWindowIcon(QtGui.QIcon("Logokecil.png"))
+        MainWindow.setWindowIcon(QtGui.QIcon("icons/Logokecil.png"))
         MainWindow.setStyleSheet("background-color: rgb(254,251,234);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -257,7 +257,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.label_13 = QtWidgets.QLabel(self.frame_9)
         self.label_13.setText("")
-        self.label_13.setPixmap(QtGui.QPixmap("Kalenderlogo.png"))
+        self.label_13.setPixmap(QtGui.QPixmap("icons/Kalenderlogo.png"))
         self.label_13.setObjectName("label_13")
         self.horizontalLayout_5.addWidget(self.label_13)
         self.frame_12 = QtWidgets.QFrame(self.frame_9)
@@ -344,7 +344,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(100, 173, 173);\n"
 "}")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Homelogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons/Homelogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.home_button.setIcon(icon)
         self.home_button.setIconSize(QtCore.QSize(14, 14))
         self.home_button.setCheckable(False)
@@ -361,7 +361,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(100, 173, 173);\n"
 "}")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("Foodlog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("icons/Foodlog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.foodlog_button.setIcon(icon1)
         self.foodlog_button.setIconSize(QtCore.QSize(14, 14))
         self.foodlog_button.setObjectName("foodlog_button")
@@ -377,7 +377,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(100, 173, 173);\n"
 "}")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("Progresslogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("icons/Progresslogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.progress_button.setIcon(icon2)
         self.progress_button.setIconSize(QtCore.QSize(14, 14))
         self.progress_button.setObjectName("progress_button")
@@ -405,7 +405,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.title.setPixmap(QtGui.QPixmap("Logokecil.png"))
+        self.title.setPixmap(QtGui.QPixmap("icons/Logokecil.png"))
         self.label.setText(_translate("MainWindow", "Weight Progress"))
         self.label_2.setText(_translate("MainWindow", "Start"))
         self.start_label.setText(_translate("MainWindow", "..."))
@@ -426,7 +426,6 @@ class Ui_MainWindow(object):
         self.foodlog_button.setText(_translate("MainWindow", "Food Log"))
         self.progress_button.setText(_translate("MainWindow", "Progress"))
         
-import rsc
 
 
 if __name__ == "__main__":

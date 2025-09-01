@@ -15,14 +15,14 @@ import time
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.setWindowIcon(QtGui.QIcon("Logokecil.png"))
+        Form.setWindowIcon(QtGui.QIcon("icons/Logokecil.png"))
         Form.setGeometry(0, 0, 1056, 820)
         Form.setStyleSheet("background:none;")
 
         self.titleImage = QtWidgets.QLabel(Form)
         self.titleImage.setGeometry(QtCore.QRect(228, 80, 600, 150)) 
         self.titleImage.setObjectName("titleImage")
-        self.titleImage.setPixmap(QtGui.QPixmap("Logo.png"))
+        self.titleImage.setPixmap(QtGui.QPixmap("icons/Logo.png"))
         self.titleImage.setAlignment(QtCore.Qt.AlignCenter) 
         
         self.inputNamauser = QtWidgets.QLineEdit(Form)
@@ -127,7 +127,6 @@ class Ui_Form(object):
         self.Enterbutton.setText(_translate("Form", "Enter"))
         self.backbutton.setText(_translate("Form", "Back"))       
 
-import rsc         
 
 
 if __name__ == "__main__":
