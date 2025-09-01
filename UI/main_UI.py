@@ -617,7 +617,6 @@ class Mainapp(QMainWindow):
     def show_home(self, username):
         self.current_user = username 
         self.home.display_data(self.current_user)
-        self.progress.load_user_data(self.current_user) 
         self.stackwidget.setCurrentWidget(self.home)
         
     def show_foodlog(self):
@@ -625,6 +624,8 @@ class Mainapp(QMainWindow):
         self.stackwidget.setCurrentWidget(self.foodlog)
 
     def show_progress(self):
+        if self.current_user:
+            self.progress.load_user_data(self.current_user)
         self.stackwidget.setCurrentWidget(self.progress)
         
 if __name__ == "__main__":
