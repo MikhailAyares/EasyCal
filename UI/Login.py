@@ -67,6 +67,7 @@ class Ui_Form(object):
         
         self.inputPassword = QtWidgets.QLineEdit(Form)
         self.inputPassword.setGeometry(QtCore.QRect(353, 400, 350, 45))
+        self.inputPassword.setEchoMode(QtWidgets.QLineEdit.Password)
         self.inputPassword.setObjectName("inputPassword")
         self.inputPassword.setStyleSheet("border: 1px solid black;\n"
 "font-weight:bold;"
