@@ -187,6 +187,9 @@ class UpdateData(QDialog):
         self.updatewin.setupUi(self)
         self.manager = manager
 
+        self.updatewin.currentweight_2.setMaximum(999.99)
+        self.updatewin.targetweight_2.setMaximum(999.99)
+
         
         self.updatewin.pushButton.clicked.connect(self.save_clicked)
         self.updatewin.cancel.clicked.connect(self.close)
