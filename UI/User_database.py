@@ -243,3 +243,48 @@ def get_meal_logs_by_date(username, date):
         return []
     finally:
         conn.close()
+
+def get_calorie_history(username):
+    conn = sqlite3.connect('../db/users.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT total_cal FROM daily_calories WHERE username = ? ORDER BY date ASC", (username,))
+        calories = [item[0] for item in cursor.fetchall()]
+        return calories
+    finally:
+        conn.close()
+
+def get_weight_history(username):
+    conn = sqlite3.connect('../db/users.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+            SELECT current_weight FROM daily_calories 
+            WHERE username = ? AND current_weight IS NOT NULL 
+            ORDER BY date ASC
+        """, (username,))
+        weights = [item[0] for item in cursor.fetchall()]
+        return weights
+    finally:
+        conn.close()
+
+# Add this new function to your user_database.py file
+
+def get_latest_target_calories(username):
+    conn = sqlite3.connect('../db/users.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+            SELECT target_cal FROM daily_calories 
+            WHERE username = ? 
+            ORDER BY date DESC 
+            LIMIT 1
+        """, (username,))
+        result = cursor.fetchone()
+        
+        if result and result[0] is not None:
+            return result[0]
+        else:
+            return 2000
+    finally:
+        conn.close()

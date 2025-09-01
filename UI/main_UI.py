@@ -5,7 +5,7 @@ from Signup import Signup_Window
 from Login import Ui_Form as Login_Window
 from Prelogin import Prelogin_Window
 from Home import Home_Window
-from User_database import Register, login, get_data, update_calories, get_calories, add_meal_log, get_meal_logs_by_date
+from User_database import Register, login, get_data, update_calories, get_calories, add_meal_log, get_meal_logs_by_date, get_calorie_history, get_weight_history, get_latest_target_calories
 from Progress import Ui_MainWindow as Progress_Window
 from Foodlog import Ui_MainWindow as Foodlog_Window
 from Addmanual import Ui_Addmanual as Addmanual_Window
@@ -329,22 +329,24 @@ class Progress(QMainWindow):
         self.setup_graphs(None, None, None) 
 
     def load_user_data(self, username):
-        """Fetches all data for the user and updates the progress screen."""
         print(f"Loading progress data for user: {username}")
         user_data = get_data(username)
         if not user_data:
             self.show_no_data_message()
             return
 
-        weight_history = [85.0, 84.8, 84.9, 84.5, 84.2, 84.3, 83.9, 83.7]
-        calorie_history = [2250, 2100, 2300, 1950, 2050, 2150, 2200]
+        weight_history = get_weight_history(username)
+        calorie_history = get_calorie_history(username)
 
         start_weight = float(user_data.get('start_weight', 0))
         current_weight = float(user_data.get('current_weight', 0))
         goal_weight = float(user_data.get('goal_weight', 0))
 
-        target_calories = float(user_data.get('target_calories', 2000)) 
+        target_calories = get_latest_target_calories(username)
 
+        if not calorie_history:
+            calorie_history = [0]
+        
         self.update_progress(start_weight, current_weight, goal_weight)
         self.predict_goal_achievement(start_weight, goal_weight, current_weight, calorie_history, target_calories)
         self.setup_graphs(weight_history, calorie_history, target_calories)
@@ -368,7 +370,7 @@ class Progress(QMainWindow):
         ax = canvas.axes
         ax.cla()
 
-        if weight_data and len(weight_data) > 1:
+        if weight_data:
             days = range(1, len(weight_data) + 1)
             
             ax.set_facecolor('#f8f8f8') 
@@ -445,8 +447,11 @@ class Progress(QMainWindow):
         canvas.fig.tight_layout(pad=1)
 
     def update_progress(self, start_weight, current_weight, goal_weight):
+        self.progresswin.start_label.setStyleSheet("font-weight: bold;")
         self.progresswin.start_label.setText(f"{start_weight:.1f} kg")
+        self.progresswin.current_label.setStyleSheet("color: limegreen; font-weight: bold;")
         self.progresswin.current_label.setText(f"{current_weight:.1f} kg")
+        self.progresswin.goal_label.setStyleSheet("font-weight: bold;")
         self.progresswin.goal_label.setText(f"{goal_weight:.1f} kg")
 
         try:
