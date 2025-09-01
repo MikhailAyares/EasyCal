@@ -17,6 +17,7 @@ class Ui_Form(object):
         Form.resize(367, 331)
         Form.setStyleSheet("background-color: rgb(254,251,234);\n"
 "")
+        Form.setWindowIcon(QtGui.QIcon("Logokecil.png"))
         self.gridLayout = QtWidgets.QGridLayout(Form)
         self.gridLayout.setContentsMargins(20, 20, 20, 20)
         self.gridLayout.setHorizontalSpacing(5)
@@ -128,7 +129,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "Update Data"))
         self.currentweight.setText(_translate("Form", "Current Weight"))
         self.editdata.setText(_translate("Form", "EDIT DATA"))
         self.targetweight.setText(_translate("Form", "Target Weight"))
