@@ -104,22 +104,6 @@ class Ui_Form(object):
 "     background-color: #D6D6D6;\n"
 "}")
         self.backbutton.setObjectName("backbutton") 
-        
-        self.Update = QtWidgets.QPushButton(Form)
-        self.Update.setGeometry(QtCore.QRect(353, 580, 350, 45))
-        self.Update.setStyleSheet("QPushButton {\n"
-"     background-color: #E0E0E0; \n"
-"     color: black;\n"
-"     border: 1px solid #BDBDBD;\n"
-"     border-radius: 5px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"     background-color: #EAEAEA;\n"
-"}\n"
-"QPushButton:pressed {\n"
-"     background-color: #D6D6D6;\n"
-"}")
-        self.Update.setObjectName("") 
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -141,7 +125,6 @@ class Ui_Form(object):
         self.inputPassword.setPlaceholderText(_translate("Form", "Password"))
         self.Enterbutton.setText(_translate("Form", "Enter"))
         self.backbutton.setText(_translate("Form", "Back"))       
-        self.Update.setText(_translate("Form", "Forget Password?")) 
 
 import rsc         
 

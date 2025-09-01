@@ -1,6 +1,7 @@
 import sqlite3
 import hashlib
 from datetime import datetime
+import calories_formula
 
 conn = sqlite3.connect("../db/users.db")
 cursor = conn.cursor()
@@ -112,7 +113,7 @@ def get_data(username):
     finally:
         conn.close()
 
-def update_data(username, password, current_weight, goal_weight, activity_level):
+def update_data(username, current_weight, goal_weight, activity_level):
     
     conn = sqlite3.connect('../db/users.db')
     cursor = conn.cursor()
@@ -120,20 +121,27 @@ def update_data(username, password, current_weight, goal_weight, activity_level)
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
     try:
-        if password:
-            password_hash = hashlib.sha256(password.encode()).hexdigest()
-            cursor.execute("""
-                UPDATE users 
-                SET password = ?, current_weight = ?, goal_weight = ?, activity_level = ?, last_updated = ?
-                WHERE username = ?
-            """, (password_hash, current_weight, goal_weight, activity_level, current_time, username))
-        else:
-            
-            cursor.execute("""
+        cursor.execute("""
                 UPDATE users 
                 SET current_weight = ?, goal_weight = ?, activity_level = ?, last_updated = ?
                 WHERE username = ?
             """, (current_weight, goal_weight, activity_level, current_time, username))
+
+        user_data = get_data(username)
+
+        bmr = calories_formula.bmr_calculate(user_data['age'], user_data['gender'], current_weight, user_data['height'])
+        calories_min = calories_formula.calories_min(bmr, activity_level)
+        calories_deficit = calories_formula.calories_deficit(calories_min, user_data['weekly_goal'])
+        target_calories = calories_formula.calories_target(calories_min, calories_deficit, goal_weight, current_weight)
+
+        today_str = datetime.now().strftime('%Y-%m-%d')
+        cursor.execute("""
+            INSERT INTO daily_calories (username, date, current_weight, target_cal)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(username, date) DO UPDATE SET
+            current_weight = excluded.current_weight,
+            target_cal = excluded.target_cal;
+        """, (username, today_str, current_weight, target_calories))
 
         if cursor.rowcount == 0:
             print(f"Username '{username}' not found. No data was updated.")
@@ -167,7 +175,7 @@ def update_calories(username, calories_to_add):
         else:
             breakfast_cal, lunch_cal, dinner_cal = 0, 0, 0
             target_cal = get_latest_target_calories(username)
-
+            
         if 0 <= current_hour < 12:  
             breakfast_cal += calories_to_add
             print(f"Menambahkan {calories_to_add} kalori ke sarapan.")
@@ -180,9 +188,9 @@ def update_calories(username, calories_to_add):
 
         cursor.execute("""
             INSERT OR REPLACE INTO daily_calories 
-            (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal, target_cal) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (username, current_date, breakfast_cal, lunch_cal, dinner_cal, total_cal, target_cal))
+            (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (username, current_date, breakfast_cal, lunch_cal, dinner_cal, total_cal))
         
         conn.commit()
         return True

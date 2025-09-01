@@ -5,7 +5,7 @@ from Signup import Signup_Window
 from Login import Ui_Form as Login_Window
 from Prelogin import Prelogin_Window
 from Home import Home_Window
-from User_database import Register, login, get_data, update_calories, get_calories, add_meal_log, get_meal_logs_by_date, get_calorie_history, get_weight_history, get_latest_target_calories, save_target_calories
+from User_database import Register, login, update_data, get_data, update_calories, get_calories, add_meal_log, get_meal_logs_by_date, get_calorie_history, get_weight_history, get_latest_target_calories, save_target_calories
 from Progress import Ui_MainWindow as Progress_Window
 from Foodlog import Ui_MainWindow as Foodlog_Window
 from Addmanual import Ui_Addmanual as Addmanual_Window
@@ -182,9 +182,35 @@ class searchfood(QDialog):
 class UpdateData(QDialog):
     def __init__(self, manager):
         super().__init__()
-        self.searchfoodwin = Update_Window()
-        self.searchfoodwin.setupUi(self)
+        self.updatewin = Update_Window()
+        self.updatewin.setupUi(self)
         self.manager = manager
+
+        
+        self.updatewin.pushButton.clicked.connect(self.save_clicked)
+        self.updatewin.cancel.clicked.connect(self.close)
+    
+    def save_clicked(self):
+        username=self.manager.current_user
+        current_weight = self.updatewin.currentweight_2.value()
+        target_weight = self.updatewin.targetweight_2.value()
+        activity_map = {"Sedentary (no exercise)": "Sedentary", "Light (1-3 times/week)": "Light", "Moderate (4-5 times/week)": "Moderate", "Very active(6-7 times/week)": "Very active"}
+        activity_level = activity_map.get(self.updatewin.activity.currentText())
+ 
+        msg_box = QMessageBox()
+
+        if update_data(username, current_weight, target_weight, activity_level):
+            msg_box.information(self, "Sukses", "Update data berhasil.")
+            self.accept()
+
+        else:
+            msg_box.critical(self, "Gagal", "Update data belum berhasil.")
+
+
+
+
+
+
                 
 class Home(QMainWindow):
     def __init__(self, manager):
