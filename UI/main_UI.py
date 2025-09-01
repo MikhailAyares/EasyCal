@@ -1,10 +1,11 @@
 import sys
+from datetime import date
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QStackedWidget, QMessageBox, QDialog, QVBoxLayout
 from Signup import Signup_Window
 from Login import Ui_Form as Login_Window
 from Prelogin import Prelogin_Window
 from Home import Home_Window
-from User_database import Register, login, get_data
+from User_database import Register, login, get_data, update_calories, get_calories
 from Progress import Ui_MainWindow as Progress_Window
 from Foodlog import Ui_MainWindow as Foodlog_Window
 from Addmanual import Ui_Addmanual as Addmanual_Window
@@ -170,6 +171,25 @@ class Home(QMainWindow):
             self.homewin.DisplayWeightLabel.setText(str(user_data['current_weight']))
             self.homewin.DisplayWeightLabel2.setText(str(user_data['start_weight']))
             self.homewin.DisplayWeightLabel3.setText(str(user_data['goal_weight']))
+            
+            today_str = date.today().strftime('%Y-%m-%d')
+            calories_data = get_calories(username, today_str)
+            
+            if calories_data:
+                bfast = calories_data.get('breakfast_cal', 0)
+                lunch = calories_data.get('lunch_cal', 0)
+                dinner = calories_data.get('dinner_cal', 0)
+                total = calories_data.get('total_cal', 0)
+                
+                self.homewin.DisplayBreakfastLabel.setText(str(int(bfast)))
+                self.homewin.DisplayLunchLabel.setText(str(int(lunch)))
+                self.homewin.DisplayDinnerLabel.setText(str(int(dinner)))
+                self.homewin.CaloriBar.setValue(int(total))
+            else:
+                self.homewin.DisplayBreakfastLabel.setText("0")
+                self.homewin.DisplayLunchLabel.setText("0")
+                self.homewin.DisplayDinnerLabel.setText("0")
+                self.homewin.CaloriBar.setValue(0)
         else:
             self.clear_display_data()
             QMessageBox.critical(self, "Error", f"Tidak dapat memuat data untuk pengguna: {username}")

@@ -130,20 +130,42 @@ def update_data(username, password, current_weight, goal_weight, activity_level)
     finally:
         conn.close()
         
-def update_calories(username, date, breakfast_cal, lunch_cal, dinner_cal):
-    
-    total_cal = breakfast_cal + lunch_cal + dinner_cal
+def update_calories(username, calories_to_add):
     conn = sqlite3.connect('../db/users.db')
     cursor = conn.cursor()
+    
+    now = datetime.now()
+    current_date = now.strftime('%Y-%m-%d')
+    current_hour = now.hour
+
     try:
+        cursor.execute("SELECT breakfast_cal, lunch_cal, dinner_cal FROM daily_calories WHERE username = ? AND date = ?", (username, current_date))
+        existing_data = cursor.fetchone()
+
+        if existing_data:
+            breakfast_cal, lunch_cal, dinner_cal = existing_data
+        else:
+            breakfast_cal, lunch_cal, dinner_cal = 0, 0, 0
+
+        if 0 <= current_hour < 12:  
+            breakfast_cal += calories_to_add
+            print(f"Menambahkan {calories_to_add} kalori ke sarapan.")
+        elif 12 <= current_hour < 18: 
+            lunch_cal += calories_to_add
+        else: 
+            dinner_cal += calories_to_add
+            
+        total_cal = breakfast_cal + lunch_cal + dinner_cal
+
         cursor.execute("""
             INSERT OR REPLACE INTO daily_calories 
             (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal) 
             VALUES (?, ?, ?, ?, ?, ?)
-        """, (username, date, breakfast_cal, lunch_cal, dinner_cal, total_cal))
+        """, (username, current_date, breakfast_cal, lunch_cal, dinner_cal, total_cal))
+        
         conn.commit()
-        print(f"Data kalori untuk {username} pada tanggal {date} berhasil disimpan.")
         return True
+
     except sqlite3.Error as e:
         print(f"Gagal menyimpan data kalori: {e}")
         return False
