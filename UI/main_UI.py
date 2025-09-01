@@ -1,12 +1,14 @@
 import sys
 from datetime import date, datetime
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QStackedWidget, QMessageBox, QDialog, QVBoxLayout, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QStackedWidget, QMessageBox, QDialog, QVBoxLayout, QTableWidgetItem, QHBoxLayout, QPushButton, QTimeEdit
+from PyQt5.QtCore import QTime
 from PyQt5.QtGui import QIcon
+from PyQt5 import QtGui, QtCore, QtWidgets
 from Signup import Signup_Window
 from Login import Ui_Form as Login_Window
 from Prelogin import Prelogin_Window
 from Home import Home_Window
-from User_database import Register, login, update_data, get_data, update_calories, get_calories, add_meal_log, get_meal_logs_by_date, get_calorie_history, get_weight_history, get_latest_target_calories, save_target_calories
+from User_database import Register, login, update_data, get_data, get_calories, add_meal_log, get_meal_logs_by_date, get_calorie_history, get_weight_history, get_latest_target_calories, save_target_calories, delete_meal_log, update_meal_log_time
 from Progress import Ui_MainWindow as Progress_Window
 from Foodlog import Ui_MainWindow as Foodlog_Window
 from Addmanual import Ui_Addmanual as Addmanual_Window
@@ -17,6 +19,28 @@ from matplotlib.figure import Figure
 from Updatedata import Ui_Form as Update_Window
 import numpy as np
 
+class EditTimeDialog(QDialog):
+    def __init__(self, current_time, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Edit Meal Time")
+        
+        self.layout = QVBoxLayout(self)
+        self.timeEdit = QTimeEdit(self)
+        self.timeEdit.setDisplayFormat("HH:mm")
+        self.timeEdit.setTime(current_time)
+        self.layout.addWidget(self.timeEdit)
+        
+        self.buttons = QtWidgets.QDialogButtonBox(
+            QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel,
+            self
+        )
+        self.buttons.accepted.connect(self.accept)
+        self.buttons.rejected.connect(self.reject)
+        self.layout.addWidget(self.buttons)
+
+    def getTime(self):
+        return self.timeEdit.time()
+    
 class MplCanvas(FigureCanvas):
     def __init__(self, parent=None):
         self.fig = Figure(figsize=(6, 3), dpi=75)
@@ -210,12 +234,6 @@ class UpdateData(QDialog):
         else:
             msg_box.critical(self, "Gagal", "Update data belum berhasil.")
 
-
-
-
-
-
-                
 class Home(QMainWindow):
     def __init__(self, manager):
         super().__init__()
@@ -329,7 +347,9 @@ class Foodlog(QMainWindow):
             total_fat += meal.get('fat', 0)
             total_carbs += meal.get('carbs', 0)
 
-            log_time = datetime.strptime(meal['log_time'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')
+            log_time_obj = datetime.strptime(meal['log_time'], '%Y-%m-%d %H:%M:%S')
+            log_time_str = log_time_obj.strftime('%H:%M')
+            
             calories = f"{meal['calories']:.1f}"
             protein = f"{meal['protein']:.1f}"
             fat = f"{meal['fat']:.1f}"
@@ -337,12 +357,34 @@ class Foodlog(QMainWindow):
             portion = f"{meal['portion']:.1f} gr"
             
             table.setItem(row_num, 0, QTableWidgetItem(meal['meal_name']))
-            table.setItem(row_num, 1, QTableWidgetItem(log_time))
+            table.setItem(row_num, 1, QTableWidgetItem(log_time_str))
             table.setItem(row_num, 2, QTableWidgetItem(calories))
             table.setItem(row_num, 3, QTableWidgetItem(protein))
             table.setItem(row_num, 4, QTableWidgetItem(fat))
             table.setItem(row_num, 5, QTableWidgetItem(carbs))
             table.setItem(row_num, 6, QTableWidgetItem(portion))
+            
+            options_layout = QHBoxLayout()
+            options_widget = QWidget()
+            options_widget.setLayout(options_layout)
+
+            edit_button = QPushButton("Edit")
+            edit_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+            edit_button.setStyleSheet("background-color: #64B5F6; color: white;")
+            
+            delete_button = QPushButton("Delete")
+            delete_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+            delete_button.setStyleSheet("background-color: #E57373; color: white;")
+
+            options_layout.addWidget(edit_button)
+            options_layout.addWidget(delete_button)
+            options_layout.setContentsMargins(5, 0, 5, 0)
+
+            meal_id = meal['meal_id']
+            edit_button.clicked.connect(lambda _, mid=meal_id, time_obj=log_time_obj: self.handle_edit_meal(mid, time_obj))
+            delete_button.clicked.connect(lambda _, mid=meal_id: self.handle_delete_meal(mid))
+            
+            table.setCellWidget(row_num, 7, options_widget)
         
         target_cal = calories_data.get('target_cal', 2000) if calories_data else 2000
         remaining_cal = target_cal - total_calories_consumed
@@ -354,6 +396,27 @@ class Foodlog(QMainWindow):
         self.foodlogwin.proteingram.setText(f"{total_protein:.1f} gr")
         self.foodlogwin.carbsgram.setText(f"{total_carbs:.1f} gr")
         self.foodlogwin.fatgram.setText(f"{total_fat:.1f} gr")
+
+    def handle_delete_meal(self, meal_id):
+        confirm_box = QMessageBox()
+        reply = confirm_box.question(self, 'Konfirmasi Hapus', 
+                                     "Anda yakin ingin menghapus catatan makanan ini?",
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            if delete_meal_log(meal_id):
+                self.load_and_display_meals()
+            else:
+                QMessageBox.critical(self, "Error", "Gagal menghapus data dari database.")
+
+    def handle_edit_meal(self, meal_id, current_time_obj):
+        dialog = EditTimeDialog(QTime(current_time_obj.hour, current_time_obj.minute), self)
+        if dialog.exec_() == QDialog.Accepted:
+            new_time = dialog.getTime()
+            if update_meal_log_time(meal_id, new_time):
+                self.load_and_display_meals()
+            else:
+                QMessageBox.critical(self, "Error", "Gagal mengupdate waktu di database.")
 
     def show_addmanual(self):
         calladdmanual = Addmanual(self.manager)
