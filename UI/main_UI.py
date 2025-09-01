@@ -408,7 +408,13 @@ class Progress(QMainWindow):
         self.progresswin.setupUi(self)
         self.progresswin.home_button.clicked.connect(lambda: self.manager.show_home(self.manager.current_user))
         self.progresswin.foodlog_button.clicked.connect(lambda: self.manager.show_foodlog())
-        self.setup_graphs(None, None, None) 
+        
+        self.weight_canvas = MplCanvas()
+        self.calories_canvas = MplCanvas()
+        weight_layout = QVBoxLayout(self.progresswin.weight_graph_placeholder)
+        calories_layout = QVBoxLayout(self.progresswin.calories_graph_placeholder)
+        weight_layout.addWidget(self.weight_canvas)
+        calories_layout.addWidget(self.calories_canvas)
 
     def load_user_data(self, username):
         print(f"Loading progress data for user: {username}")
@@ -419,174 +425,129 @@ class Progress(QMainWindow):
 
         weight_data = get_weight_history(username)
         calorie_data = get_calorie_history(username)
-
-        start_weight = float(user_data.get('start_weight', 0))
-        current_weight = float(user_data.get('current_weight', 0))
-        goal_weight = float(user_data.get('goal_weight', 0))
-
         target_calories = get_latest_target_calories(username)
         
-        self.update_progress(start_weight, current_weight, goal_weight)
-        self.predict_goal_achievement(start_weight, goal_weight, current_weight, calorie_data, target_calories)
-        self.setup_graphs(weight_data, calorie_data, target_calories)
+        self.update_progress(user_data)
+        self.predict_goal_achievement(user_data, calorie_data)
+        self.plot_weight_graph(weight_data)
+        self.plot_calories_graph(calorie_data, target_calories)
 
-    def add_canvas_to_placeholder(self, placeholder, canvas):
-        if placeholder.layout() is not None:
-            while placeholder.layout().count():
-                child = placeholder.layout().takeAt(0)
-                if child.widget():
-                    child.widget().deleteLater()
-        else:
-            layout = QVBoxLayout()
-            placeholder.setLayout(layout)
-
-        placeholder.layout().addWidget(canvas)
-
-    def setup_graphs(self, weight_data, calorie_data, target_calories):
-        if self.progresswin.weight_graph_placeholder:
-            weight_canvas = MplCanvas()
-            self.plot_weight_graph(weight_canvas, weight_data)
-            self.add_canvas_to_placeholder(self.progresswin.weight_graph_placeholder, weight_canvas)
-            
-        if self.progresswin.calories_graph_placeholder:
-            calories_canvas = MplCanvas()
-            self.plot_calories_graph(calories_canvas, calorie_data, target_calories)
-            self.add_canvas_to_placeholder(self.progresswin.calories_graph_placeholder, calories_canvas)
-        
-    def plot_weight_graph(self, canvas, weight_data):
-        ax = canvas.axes
+    def plot_weight_graph(self, weight_data):
+        ax = self.weight_canvas.axes
         ax.cla()
-
         if weight_data:
             days = range(1, len(weight_data) + 1)
-            
             ax.set_facecolor('#f8f8f8') 
-            
             ax.plot(days, weight_data, marker='o', linestyle='-', color='#6495ED', linewidth=2, markersize=7)
-            
             ax.set_title("Your Weight Journey", fontsize=14, fontweight='bold', color='#333333', fontname='Segoe UI')
             ax.set_ylabel("Weight (kg)", fontsize=11, color='#555555', fontname='Segoe UI')
-            
             ax.grid(True, linestyle='--', alpha=0.6, color='#CCCCCC')
-            
             ax.spines['top'].set_visible(False)
             ax.spines['right'].set_visible(False)
             ax.spines['left'].set_color('#BBBBBB')
             ax.spines['bottom'].set_color('#BBBBBB')
-            
-            ax.tick_params(axis='x', labelsize=9, colors='#666666')
             ax.tick_params(axis='y', labelsize=9, colors='#666666')
-
             ax.set_xticks(days)
             ax.set_xticklabels([f"Day {d}" for d in days], rotation=45, ha='right', fontsize=8) 
 
         else:
-            ax.text(0.5, 0.5, "Not enough data to show.", horizontalalignment='center',
-                     verticalalignment='center', transform=ax.transAxes, fontsize=12, color='#888888')
-            ax.set_xticks([])
-            ax.set_yticks([])
+            ax.text(0.5, 0.5, "Update your weight to see progress", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes, fontsize=12, color='#888888')
+            ax.set_xticks([]); ax.set_yticks([])
+        self.weight_canvas.fig.tight_layout(pad=1)
+        self.weight_canvas.draw()
 
-        canvas.fig.tight_layout(pad=1)
-
-    def plot_calories_graph(self, canvas, calorie_data, target_calories):
-        ax = canvas.axes
+    def plot_calories_graph(self, calorie_data, target_calories):
+        ax = self.calories_canvas.axes
         ax.cla()
-
         if calorie_data and target_calories:
             days = range(1, len(calorie_data) + 1)
-            
             ax.set_facecolor('#f8f8f8') 
-
             colors = []
             for calorie in calorie_data:
                 if calorie > target_calories:
-                    colors.append('#E74C3C')
+                    colors.append('#E74C3C') 
                 elif calorie < target_calories:
                     colors.append('#F39C12')
                 else:
-                    colors.append('#2ECC71')
-
+                    colors.append('#2ECC71') 
             ax.bar(days, calorie_data, color=colors, width=0.7, edgecolor='white', linewidth=0.8)
-            
             ax.set_title("Your Daily Calorie Intake", fontsize=14, fontweight='bold', color='#333333', fontname='Segoe UI')
             ax.set_ylabel("Calories (kcal)", fontsize=11, color='#555555', fontname='Segoe UI')
-            
             ax.grid(axis='y', linestyle='--', alpha=0.6, color='#CCCCCC')
             ax.grid(axis='x', visible=False)
-            
             ax.spines['top'].set_visible(False)
             ax.spines['right'].set_visible(False)
             ax.spines['left'].set_color('#BBBBBB')
             ax.spines['bottom'].set_color('#BBBBBB')
-            
-            ax.tick_params(axis='x', labelsize=9, colors='#666666')
             ax.tick_params(axis='y', labelsize=9, colors='#666666')
-
             ax.set_xticks(days)
             ax.set_xticklabels([f"Day {d}" for d in days], rotation=45, ha='right', fontsize=8)
-
         else:
-            ax.text(0.5, 0.5, "No data to show.", horizontalalignment='center',
-                     verticalalignment='center', transform=ax.transAxes, fontsize=12, color='#888888')
-            ax.set_xticks([])
-            ax.set_yticks([])
+            ax.text(0.5, 0.5, "Log your food to see calorie trends", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes, fontsize=12, color='#888888')
+            ax.set_xticks([]); ax.set_yticks([])
+        self.calories_canvas.fig.tight_layout(pad=1)
+        self.calories_canvas.draw()
 
-        canvas.fig.tight_layout(pad=1)
-
-    def update_progress(self, start_weight, current_weight, goal_weight):
-        self.progresswin.start_label.setStyleSheet("font-weight: bold;")
+    def update_progress(self, user_data):
+        start_weight = user_data.get('start_weight', 0)
+        current_weight = user_data.get('current_weight', 0)
+        goal_weight = user_data.get('goal_weight', 0)
         self.progresswin.start_label.setText(f"{start_weight:.1f} kg")
-        self.progresswin.current_label.setStyleSheet("color: limegreen; font-weight: bold;")
+        self.progresswin.start_label.setStyleSheet("font-weight: bold;")
         self.progresswin.current_label.setText(f"{current_weight:.1f} kg")
-        self.progresswin.goal_label.setStyleSheet("font-weight: bold;")
+        self.progresswin.current_label.setStyleSheet("font-weight: bold; color: limegreen;")
         self.progresswin.goal_label.setText(f"{goal_weight:.1f} kg")
-
+        self.progresswin.goal_label.setStyleSheet("font-weight: bold;")
         try:
-            total_progress_needed = start_weight - goal_weight
-            current_progress = start_weight - current_weight
-            progress_percentage = (current_progress / total_progress_needed) * 100
-            
+            if goal_weight > start_weight:
+                total_progress_needed = goal_weight - start_weight
+                current_progress = current_weight - start_weight
+            else:
+                total_progress_needed = start_weight - goal_weight
+                current_progress = start_weight - current_weight
+            progress_percentage = (current_progress / total_progress_needed * 100) if total_progress_needed != 0 else 0
             progress_percentage = max(0, min(100, progress_percentage))
-
             self.progresswin.progress_bar.setValue(int(progress_percentage))
-            
             self.progresswin.percentage_label.setText(f"{int(progress_percentage)}%")
-            
         except (ZeroDivisionError, TypeError):
             self.progresswin.progress_bar.setValue(0)
             self.progresswin.percentage_label.setText("N/A")
             
-    def predict_goal_achievement(self, start_weight, goal_weight, current_weight, calorie_data, target_calories):
+    def predict_goal_achievement(self, user_data, calorie_data):
+        if not calorie_data or np.mean(calorie_data) == 0:
+            self.progresswin.days_to_goal_label.setText("Need calorie data")
+            return
+        
+        age = user_data.get('age')
+        gender = user_data.get('gender')
+        current_weight = user_data.get('current_weight')
+        height = user_data.get('height')
+        activity_level = user_data.get('activity_level')
+        goal_weight = user_data.get('goal_weight')
+
+        bmr = calories_formula.bmr_calculate(age, gender, current_weight, height)
+        maintenance_calories = calories_formula.calories_min(bmr, activity_level)
         avg_intake = np.mean(calorie_data)
         kcal_per_kg = 7700
 
-        if goal_weight < start_weight:
-            daily_deficit = target_calories - avg_intake
-            
-            if current_weight <= goal_weight:
-                self.progresswin.days_to_goal_label.setText("Goal Achieved!")
-
-            elif daily_deficit > 0: 
+        if goal_weight < current_weight:
+            actual_daily_deficit = maintenance_calories - avg_intake
+            if actual_daily_deficit > 0: 
                 weight_to_lose = current_weight - goal_weight
-                total_kcal_to_lose = weight_to_lose * kcal_per_kg
-                days_needed = total_kcal_to_lose / daily_deficit
+                days_needed = (weight_to_lose * kcal_per_kg) / actual_daily_deficit
                 self.progresswin.days_to_goal_label.setText(f"{int(days_needed)} days")
             else:
-                self.progresswin.days_to_goal_label.setText("Increase deficit to lose weight")
-
-        elif goal_weight > start_weight:
-            daily_surplus = avg_intake - target_calories
-
-            if current_weight >= goal_weight:
-                self.progresswin.days_to_goal_label.setText("Goal Achieved!")
-
-            elif daily_surplus > 0: 
+                self.progresswin.days_to_goal_label.setText("Decrease calories for progress")
+        elif goal_weight > current_weight:
+            actual_daily_surplus = avg_intake - maintenance_calories
+            if actual_daily_surplus > 0:
                 weight_to_gain = goal_weight - current_weight
-                total_kcal_to_gain = weight_to_gain * kcal_per_kg
-                days_needed = total_kcal_to_gain / daily_surplus
+                days_needed = (weight_to_gain * kcal_per_kg) / actual_daily_surplus
                 self.progresswin.days_to_goal_label.setText(f"{int(days_needed)} days")
             else:
-                self.progresswin.days_to_goal_label.setText("Increase surplus to gain weight")
+                self.progresswin.days_to_goal_label.setText("Increase calories for progress")
+        else:
+            self.progresswin.days_to_goal_label.setText("Goal Achieved!")
 
     def show_no_data_message(self):
         self.progresswin.start_label.setText("...")
@@ -595,6 +556,8 @@ class Progress(QMainWindow):
         self.progresswin.progress_bar.setValue(0)
         self.progresswin.percentage_label.setText("N/A")
         self.progresswin.days_to_goal_label.setText("No data")
+        self.plot_weight_graph(None)
+        self.plot_calories_graph(None, None)
         
 class Mainapp(QMainWindow):
     def __init__(self):
